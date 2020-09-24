@@ -9,7 +9,7 @@ class App extends React.Component {
   
   state = {
     searchQuery: '',
-    searchResults: ''
+    searchResults: []
   }
 
   appSearchHandler = (event) => {
@@ -40,7 +40,9 @@ class App extends React.Component {
     }
     fetch(`${API_URL}/searches`, options)
       .then(response => response.json())
-      .then(console.log)
+      .then(res=>{
+        this.setState(()=>({searchResults:JSON.parse(res.results)}))
+      })
 
       this.setState(()=>({
         searchQuery: ''
@@ -56,7 +58,7 @@ class App extends React.Component {
       <div>
         <h1>OMG KTV Let's Sing!</h1>
         <Search searchHandler={this.appSearchHandler} searchQuery={this.state.searchQuery} appSubmitHandler={this.appSubmitHandler} />
-        <ResultsContainer />
+        <ResultsContainer searchResults={this.state.searchResults}/>
 
       </div> 
     )
