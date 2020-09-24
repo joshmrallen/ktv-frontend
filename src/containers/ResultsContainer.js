@@ -8,7 +8,7 @@ const ResultsContainer = (props) => {
     return(
         <div>
             {videos}
-            <button>Next</button>
+            <button>Next please</button>
         </div>
     )
 }
