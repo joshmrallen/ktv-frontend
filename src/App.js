@@ -1,26 +1,56 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ResultsContainer from './containers/ResultsContainer'
+import Search from './components/Search'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const API_URL = ''
+
+class App extends React.Component {
+  
+  state = {
+    searchQuery: '',
+    searchResults: []
+  }
+
+  appSearchHandler = (event) => {
+    //setState here to change searchQuery to value received from Search
+    event.persist()
+    this.setState(()=>({
+      searchQuery: event.target.value
+    }))
+    console.log("This is our change handler. Here's the query:", event.target.value)
+  }
+
+  appSubmitHandler = (event) => {
+    event.preventDefault()
+    const query = this.state.searchQuery
+    const options = {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json'
+      },
+      body: JSON.stringify(query)
+    }
+    fetch(API_URL, options)
+      .then(response => response.json())
+      .then(console.log)
+  }
+
+  resultsGetter = () => {
+
+  }
+  
+  render(){
+    return (
+      <div>
+        <h1>OMG KTV Let's Sing!</h1>
+        <Search searchHandler={this.appSearchHandler} searchQuery={this.state.searchQuery} />
+        <ResultsContainer />
+
+      </div> 
+    )
+  }
 }
 
 export default App;
