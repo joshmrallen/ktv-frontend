@@ -3,13 +3,13 @@ import './App.css';
 import ResultsContainer from './containers/ResultsContainer'
 import Search from './components/Search'
 
-const API_URL = ''
+const API_URL = 'http://localhost:3000'
 
 class App extends React.Component {
   
   state = {
     searchQuery: '',
-    searchResults: []
+    searchResults: ''
   }
 
   appSearchHandler = (event) => {
@@ -22,8 +22,14 @@ class App extends React.Component {
   }
 
   appSubmitHandler = (event) => {
+    event.persist()
     event.preventDefault()
-    const query = this.state.searchQuery
+    // debugger
+    console.log("Search Submit in app now!")
+    const query = {
+      query: this.state.searchQuery,
+      results: ''
+    }
     const options = {
       method: 'POST',
       headers: {
@@ -32,9 +38,13 @@ class App extends React.Component {
       },
       body: JSON.stringify(query)
     }
-    fetch(API_URL, options)
+    fetch(`${API_URL}/searches`, options)
       .then(response => response.json())
       .then(console.log)
+
+      this.setState(()=>({
+        searchQuery: ''
+      }))
   }
 
   resultsGetter = () => {
@@ -45,7 +55,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>OMG KTV Let's Sing!</h1>
-        <Search searchHandler={this.appSearchHandler} searchQuery={this.state.searchQuery} />
+        <Search searchHandler={this.appSearchHandler} searchQuery={this.state.searchQuery} appSubmitHandler={this.appSubmitHandler} />
         <ResultsContainer />
 
       </div> 
