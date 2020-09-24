@@ -1,15 +1,25 @@
 import React from 'react'
 
-const Search = (props) => {
+class Search extends React.Component {
 
-    console.log(props)
+    // console.log(props.appSubmitHandler)
 
-    return(
-            <div>
-                <input type='text' name="search" placeholder="Search for a Song" value={props.searchQuery} onChange={props.searchHandler} />
-                <input type='submit' value='Search' onSubmit={props.appSubmitHandler} />
-            </div>
-        )
+    // const submitHandler = (event) => {
+    //     event.preventDefault()
+    //     console.log("Still inside Search component!")
+    //     props.appSubmitHandler(event)
+    // }
+
+    render(){
+        return(
+                <div>
+                    <form onSubmit={this.props.appSubmitHandler}>
+                        <input type='text' name="search" placeholder="Search for a Song" value={this.props.searchQuery} onChange={this.props.searchHandler} />
+                        <input type='submit' value='Search' />
+                    </form>
+                </div>
+            )
+    }
 }
 
 export default Search
