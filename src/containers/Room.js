@@ -10,10 +10,10 @@ const Room = (props) => {
 
     return(
         <div>
-            <Video />
-            <LyricBox />
+            <Video videoId={props.roomId} />
+            {/* <LyricBox />
             <SearchContainer />
-            <FavoritesContainer />
+            <FavoritesContainer /> */}
         </div>
     )
 }

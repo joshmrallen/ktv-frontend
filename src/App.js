@@ -4,6 +4,7 @@ import ResultsContainer from './containers/ResultsContainer'
 import Search from './components/Search'
 import NavBar from './components/NavBar';
 import {Route} from 'react-router-dom'
+import Room from './containers/Room'
 
 const API_URL = 'http://localhost:3000'
 
@@ -13,7 +14,8 @@ class App extends React.Component {
     searchQuery: '',
     searchResults: [],
     nextToken: false,
-    prevToken: false
+    prevToken: false,
+    roomId: false
   }
 
   appSearchHandler = (event) => {
@@ -46,7 +48,7 @@ class App extends React.Component {
       .then(res=>{
         console.log(res)
         this.setState(()=>({
-          searchResults: res.search.result, 
+          searchResults: res.search.results, 
           nextToken: res.next_token}))
       })
 
@@ -112,12 +114,21 @@ class App extends React.Component {
         }))
       })
   }
+
+  appRoomMaker = (videoId) => {
+    console.log('This is our room maker. RoomId is currently: ', this.state.roomId)
+    this.setState(()=>({
+      roomId: videoId
+    }))
+    console.log('RoomId is now: ', this.state.roomId)
+  }
   
   render(){
     // console.log(this.state)
     return (
       <div>
         <Route path='/' component={NavBar}  />
+        { this.state.roomId ? <Room roomId={this.state.roomId} /> : null}
         <h1>OMG KTV Let's Sing!</h1>
         <Search 
           searchHandler={this.appSearchHandler} 
@@ -131,7 +142,9 @@ class App extends React.Component {
           prev={this.prev}
           prevToken={this.state.prevToken} 
           nextToken={this.state.nextToken} 
+          appRoomMaker={this.appRoomMaker}
         />
+
 
       </div> 
     )
