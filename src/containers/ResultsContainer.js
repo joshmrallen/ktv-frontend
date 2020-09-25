@@ -8,7 +8,8 @@ const ResultsContainer = (props) => {
     return(
         <div>
             {videos}
-            {props.searchResults.length===0 ? null : <button onClick={()=>{props.next()}} >Next 10</button>}
+            {props.prevToken ? <button onClick={()=>{props.prev()}}>Prev 10</button> : null}
+            {props.nextToken ? <button onClick={()=>{props.next()}} >Next 10</button> : null}
         </div>
     )
 }
