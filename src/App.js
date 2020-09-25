@@ -9,7 +9,9 @@ class App extends React.Component {
   
   state = {
     searchQuery: '',
-    searchResults: []
+    searchResults: [],
+    nextToken:"",
+    prevToken:""
   }
 
   appSearchHandler = (event) => {
@@ -24,7 +26,6 @@ class App extends React.Component {
   appSubmitHandler = (event) => {
     event.persist()
     event.preventDefault()
-    // debugger
     console.log("Search Submit in app now!")
     const query = {
       query: this.state.searchQuery,
@@ -41,7 +42,8 @@ class App extends React.Component {
     fetch(`${API_URL}/searches`, options)
       .then(response => response.json())
       .then(res=>{
-        this.setState(()=>({searchResults:JSON.parse(res.results)}))
+        console.log(res)
+        this.setState(()=>({searchResults:res.search.results,nextToken:res.token}))
       })
 
       this.setState(()=>({
@@ -52,13 +54,37 @@ class App extends React.Component {
   resultsGetter = () => {
 
   }
+
+  next = ()=>{
+    console.log("this is my next")
+    const query = {
+      query: "",
+      results: this.state.nextToken
+    }
+    console.log(query)
+    const options = {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'accept': 'application/json'
+      },
+      body: JSON.stringify(query)
+    }
+    fetch(`${API_URL}/searches`, options)
+      .then(response => response.json())
+      .then(res=>{
+        console.log(res)
+        this.setState(()=>({searchResults:res.search.results,nextToken:res.token,prevToken:res.prev}))
+      })
+  }
   
   render(){
+    console.log(this.state)
     return (
       <div>
         <h1>OMG KTV Let's Sing!</h1>
         <Search searchHandler={this.appSearchHandler} searchQuery={this.state.searchQuery} appSubmitHandler={this.appSubmitHandler} />
-        <ResultsContainer searchResults={this.state.searchResults}/>
+        <ResultsContainer searchResults={this.state.searchResults} next={this.next}/>
 
       </div> 
     )
