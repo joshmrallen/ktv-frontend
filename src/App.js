@@ -46,7 +46,7 @@ class App extends React.Component {
       .then(res=>{
         console.log(res)
         this.setState(()=>({
-          searchResults: JSON.parse(res.search.results), 
+          searchResults: res.search.result, 
           nextToken: res.next_token}))
       })
 
@@ -79,7 +79,7 @@ class App extends React.Component {
       .then(res=>{
         console.log(res)
         this.setState(()=>({
-          searchResults: JSON.parse(res.search.results),
+          searchResults: res.search.results,
           nextToken: res.next_token,
           prevToken: res.prev_token
         }))
@@ -106,7 +106,7 @@ class App extends React.Component {
       .then(res => {
         console.log(res)
         this.setState(()=>({
-          searchResults: JSON.parse(res.search.results),
+          searchResults: res.search.results,
           nextToken: res.next_token,
           prevToken: res.prev_token
         }))
