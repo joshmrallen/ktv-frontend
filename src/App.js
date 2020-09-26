@@ -147,9 +147,20 @@ class App extends React.Component {
   }
 
     youtube_parser=(url)=>{
-      var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-      var match = url.match(regExp);
-      return (match&&match[7].length==11)? match[7] : false;
+      let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+      let match = url.match(regExp);
+      return (match&&match[7].length===11)? match[7] : false;
+    }
+
+    addToFavs=()=>{
+      console.log("this is my add to favs")
+      let videoID= this.state.roomId
+      if (!this.state.favorites.includes(videoID)){
+        let newArray= [videoID, ...this.state.favorites]
+        this.setState(()=>({
+          favorites: newArray
+        }))
+      }
     }
   
   render(){
@@ -158,7 +169,7 @@ class App extends React.Component {
     return (
       <div className='wrapper'>
         <Route path='/' component={NavBar}  />
-        { this.state.roomId ? <Room roomId={this.state.roomId} /> : null}
+        { this.state.roomId ? <Room roomId={this.state.roomId} addToFavs={this.addToFavs}/> : null}
         
 
         <ResultsContainer 

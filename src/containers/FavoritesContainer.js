@@ -1,5 +1,5 @@
 import React from 'react'
-import Favorite from '../components/Favorite'
+//import Favorite from '../components/Favorite'
 import Result from '../components/Result'
 import Add from '../components/Add'
 
