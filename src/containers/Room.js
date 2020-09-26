@@ -1,8 +1,8 @@
 import React from 'react'
 import Video from '../components/Video'
-import LyricBox from '../components/LyricBox'
-import SearchContainer from './SearchContainer'
-import FavoritesContainer from './FavoritesContainer'
+//import LyricBox from '../components/LyricBox'
+//import SearchContainer from './SearchContainer'
+//import FavoritesContainer from './FavoritesContainer'
 
 const Room = (props) => {
 

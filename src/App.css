@@ -31,7 +31,6 @@ body {
           grid-column: 1 ;
           grid-row: 2 ;
           grid-row-end:last-line;
-          grid-template-columns: subgrid;
           justify-items: stretch;
           height: 80vh;
           overflow-y: auto;
@@ -52,8 +51,9 @@ body {
       .room {
           grid-column: 2 ;
           grid-row: 2 ;
+          align-items: left;
       }
-      
+
       .favorites {
           grid-column: 3;
           grid-row: 2;
