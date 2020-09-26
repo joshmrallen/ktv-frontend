@@ -11,7 +11,8 @@ class App extends React.Component {
   
   state = {
     searchQuery: '',
-    searchResults: [],
+    searchResults: ["x3bDhtuC5yk","caITRQWpBHs"],
+    favorites:["x3bDhtuC5yk","caITRQWpBHs"],
     nextToken: false,
     prevToken: false
   }
@@ -46,7 +47,7 @@ class App extends React.Component {
       .then(res=>{
         console.log(res)
         this.setState(()=>({
-          searchResults: res.search.result, 
+          searchResults: res.search.results, 
           nextToken: res.next_token}))
       })
 
