@@ -8,7 +8,11 @@ const FavoritesContainer = (props) => {
     let videos = props.favs.map((el,index)=><Result key={index} el={el} appRoomMaker={props.appRoomMaker}/>)
     return(
         <div className='box favorites'>
-            <Add/>
+            <Add
+                addChanger={props.addChanger}
+                addhandler={props.addhandler}
+                addFav={props.addFav}
+            />
             {videos}
         </div>
     )

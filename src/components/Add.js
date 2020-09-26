@@ -1,16 +1,16 @@
 import React from 'react'
 
 const Add =(props)=>{
-
+    console.log(props)
         return(
                 <div>
-                    <form onSubmit={props.addHandler}>
+                    <form onSubmit={(e)=>{props.addhandler(e)}}>
                         <input
                             className=' text'
                             type='text' 
                             name="add" 
                             placeholder="Add A Song" 
-                            value={props.add} 
+                            value={props.addFav} 
                             onChange={props.addChanger} 
                         />
                         <input 

@@ -16,7 +16,8 @@ class App extends React.Component {
     favorites:["x3bDhtuC5yk","caITRQWpBHs"],
     nextToken: false,
     prevToken: false,
-    roomId: false
+    roomId: false,
+    addFav: "",
   }
 
   appSearchHandler = (event) => {
@@ -123,6 +124,33 @@ class App extends React.Component {
     }))
     console.log('RoomId is now: ', this.state.roomId)
   }
+  //This is functions for the add favs piece
+  addChanger=(event)=>{
+    console.log("this is my add changer",event.target.value)
+    event.persist()
+    this.setState(()=>({
+      addFav: event.target.value
+  }))
+}
+
+  addhandler=(event)=>{
+    event.persist()
+    event.preventDefault()
+    let videoID=this.youtube_parser(this.state.addFav)
+    if (!this.state.favorites.includes(videoID)){
+      let newArray= [videoID, ...this.state.favorites]
+      this.setState(()=>({
+        favorites: newArray
+    }))
+    }
+    console.log("this is my add handler",videoID)
+  }
+
+    youtube_parser=(url)=>{
+      var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+      var match = url.match(regExp);
+      return (match&&match[7].length==11)? match[7] : false;
+    }
   
   render(){
     // console.log(this.state)
@@ -147,7 +175,13 @@ class App extends React.Component {
 
         {
         this.state.favorites ? 
-        <FavoritesContainer favs={this.state.favorites} appRoomMaker={this.appRoomMaker}/>
+          <FavoritesContainer 
+            favs={this.state.favorites} 
+            appRoomMaker={this.appRoomMaker}
+            addChanger={this.addChanger}
+            addhandler={this.addhandler}
+            addFav={this.state.addFav}
+          />
         :
         null
         }

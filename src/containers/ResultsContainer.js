@@ -4,8 +4,8 @@ import Search from '../components/Search'
 
 const ResultsContainer = (props) => {
 
-    console.log(props.searchResults)
-    console.log(props)
+    // console.log(props.searchResults)
+    // console.log(props)
     let videos = props.searchResults.map((el,index)=><Result key={index} el={el} next={props.next} appRoomMaker={props.appRoomMaker}/>)
     return(
         <div className='box results'>

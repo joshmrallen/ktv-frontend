@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Result=(props)=>{
-    console.log(props)
+    // console.log(props)
 
     const createRoom = () => {
         props.appRoomMaker(props.el)
