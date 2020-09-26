@@ -1,11 +1,9 @@
 import React from 'react';
 import './App.css';
 import ResultsContainer from './containers/ResultsContainer'
-import Search from './components/Search'
 import NavBar from './components/NavBar';
 import {Route} from 'react-router-dom'
 import Room from './containers/Room'
-import Favorite from './components/Favorite';
 import FavoritesContainer from './containers/FavoritesContainer'
 
 const API_URL = 'http://localhost:3000'
@@ -128,16 +126,12 @@ class App extends React.Component {
   
   render(){
     // console.log(this.state)
+    //<h1>OMG KTV Let's Sing!</h1>
     return (
-      <div>
+      <div className='wrapper'>
         <Route path='/' component={NavBar}  />
         { this.state.roomId ? <Room roomId={this.state.roomId} /> : null}
-        <h1>OMG KTV Let's Sing!</h1>
-        <Search 
-          searchHandler={this.appSearchHandler} 
-          searchQuery={this.state.searchQuery} 
-          appSubmitHandler={this.appSubmitHandler} 
-        />
+        
 
         <ResultsContainer 
           searchResults={this.state.searchResults} 
@@ -146,6 +140,9 @@ class App extends React.Component {
           prevToken={this.state.prevToken} 
           nextToken={this.state.nextToken} 
           appRoomMaker={this.appRoomMaker}
+          searchHandler={this.appSearchHandler} 
+          searchQuery={this.state.searchQuery} 
+          appSubmitHandler={this.appSubmitHandler} 
         />
 
         {

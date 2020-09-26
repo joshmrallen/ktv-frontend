@@ -9,7 +9,7 @@ const Room = (props) => {
 
 
     return(
-        <div>
+        <div className='box room'>
             <Video videoId={props.roomId} />
             {/* <LyricBox />
             <SearchContainer />

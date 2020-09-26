@@ -9,7 +9,11 @@ const Result=(props)=>{
 
     return(
         <div>
-            <img alt={props.el} src={`https://img.youtube.com/vi/${props.el}/mqdefault.jpg`} onClick={createRoom} />
+            <img className='display'
+                alt={props.el} 
+                src={`https://img.youtube.com/vi/${props.el}/mqdefault.jpg`} 
+                onClick={createRoom}
+            />
         </div>
     )
 }

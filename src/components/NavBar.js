@@ -3,8 +3,8 @@ import React from 'react'
 const NavBar = (props) => {
 
     return(
-        <div>
-            <h5 style={{border: 'solid'}}>NavBar Here, Reporting for Duty</h5>
+        <div className='box nav' style={{border: 'dotted'}}>
+            NavBar Here, Reporting for Duty
         </div>
     )
 }
