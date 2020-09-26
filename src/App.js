@@ -5,6 +5,8 @@ import Search from './components/Search'
 import NavBar from './components/NavBar';
 import {Route} from 'react-router-dom'
 import Room from './containers/Room'
+import Favorite from './components/Favorite';
+import FavoritesContainer from './containers/FavoritesContainer'
 
 const API_URL = 'http://localhost:3000'
 
@@ -146,7 +148,12 @@ class App extends React.Component {
           appRoomMaker={this.appRoomMaker}
         />
 
-
+        {
+        this.state.favorites ? 
+        <FavoritesContainer favs={this.state.favorites} appRoomMaker={this.appRoomMaker}/>
+        :
+        null
+        }
       </div> 
     )
   }
