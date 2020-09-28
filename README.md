@@ -1,3 +1,23 @@
+Using Lyrics api on frontend because it's public:
+https://rapidapi.com/canarado/api/canarado-lyrics/endpoints
+
+Use tutorial for Lyrics.ovh API:
+https://www.youtube.com/watch?v=-jg0ERT_cig
+
+API site:
+https://lyricsovh.docs.apiary.io/#reference/0/lyrics-of-a-song/search?console=1
+
+
+Grading Feature:
+* use webAudio api/library
+    * https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
+    * https://css-tricks.com/making-an-audio-waveform-visualizer-with-vanilla-javascript/
+* take in youtube audio from output to record and make waveform
+* take in user audio from input to record and make waveform
+* compare the waveforms and return a percentage
+* percentage represents how close the user's waveform is to the youtube audio
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -8,6 +8,15 @@ import FavoritesContainer from './containers/FavoritesContainer'
 import Home from './components/Home'
 
 const API_URL = 'http://localhost:3000'
+const K = {
+  name: 'Kanye%20West',
+  song: 'Jesus%20Walks'
+}
+const C = {
+  name: 'Coldplay',
+  song: 'Yellow'
+}
+
 
 class App extends React.Component {
   
@@ -19,6 +28,7 @@ class App extends React.Component {
     prevToken: false,
     roomId: false,
     addFav: "",
+    lyrics: ""
   }
 
   appSearchHandler = (event) => {
@@ -120,6 +130,7 @@ class App extends React.Component {
 
   appRoomMaker = (videoId) => {
     console.log('This is our room maker. RoomId is currently: ', this.state.roomId)
+    this.getLyrics()
     this.setState(()=>({ roomId: videoId }), ()=>{
       this.props.history.push('/room')
     })
@@ -127,6 +138,8 @@ class App extends React.Component {
     /* put this.props.history.push('/room') in callback function of this.setState
     to redirect to the new room after the thumbnail is clicked */
   }
+
+
   //This is functions for the add favs piece
   addChanger=(event)=>{
     console.log("this is my add changer",event.target.value)
@@ -165,6 +178,17 @@ class App extends React.Component {
         }))
       }
     }
+
+    getLyrics = () => {
+      fetch(`https://api.lyrics.ovh/v1/${C.name}/${C.song}`)
+      .then(response => response.json())
+      .then(response => {
+        console.log(response)
+        this.setState(()=>({
+          lyrics: response.lyrics
+        }))
+      })
+    }   
   
   render(){
     // console.log(this.state)
@@ -193,7 +217,7 @@ class App extends React.Component {
           <Route path="/room" render={()=> {
             return(
               <>
-                { this.state.roomId ? <Room roomId={this.state.roomId} addToFavs={this.addToFavs}/> : null}
+                { this.state.roomId ? <Room roomId={this.state.roomId} addToFavs={this.addToFavs} lyrics={this.state.lyrics} /> : null}
                 <ResultsContainer 
                   searchResults={this.state.searchResults} 
                   next={this.next} 
