@@ -1,38 +1,129 @@
-.App {
-  text-align: center;
-}
+/*
+color theme:
+Sand Tan: #E1B382
+Sand Tan Shadow: #C89666
+Night Blue: #2D545E
+Night Blue Shadow: #12343B
+*/
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+body {
+    margin: 40px;
+    background-color: #E1B382;
+    background-image: url('./images/mics-pattern.jpg');
   }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+  
+  .wrapper {
+      display: grid;
+      grid-gap: 10px;
+          grid-template-columns: [col]150px [col]auto [col]150px;
+          background-color: #2D545E;
+          color: #E1B382;
+      border-radius: 5px;
+      }
 
-.App-link {
-  color: #61dafb;
-}
+      .home {
+        grid-column: 1 / span 3;
+        grid-row: 2;
+        text-align: center;
+      }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+      .bottom-image {
+        background-image: url('./images/lone_mic_large.jpg');
+        background-size: contain;
+        height: 80vh;
+      }
+
+      
+  
+      .box {
+          background-color: #E1B382;
+          color: #fff;
+          border-radius: 5px;
+          padding: 5px;
+          font-size: 100%;
+          border: thick;
+          
+      }
+  
+      .nav {
+          display: subgrid;
+          grid-column: 1 / span 3 ;
+          grid-row: 1;
+          font-size: 15px;
+          padding: 5px;
+          justify-items: stretch;
+      }
+
+      .link {
+        color: white;
+        padding: 5px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        text-decoration: none;
+      }
+
+      .activeLink {
+        color: rgb(150, 250, 208);
+        font-weight: bold;
+      }
+
+      .links:hover {
+        background-color: #fff;
+      }
+
+      .results {
+          grid-column: 1 ;
+          grid-row: 2 ;
+          grid-row-end:last-line;
+          justify-items: stretch;
+          height: 80vh;
+          overflow-y: auto;
+      }
+
+      .submit{
+        width: 100%;
+      }
+
+      .text {
+        width: 94%;
+      }
+
+      .display{
+        width: 100%;
+      }
+
+      .room {
+          grid-column: 2 ;
+          grid-row: 2 ;
+          align-items: left;
+      }
+
+      .favorites {
+          grid-column: 3;
+          grid-row: 2;
+          grid-row-end:last-line;
+          grid-template-columns: subgrid;
+          justify-items: stretch;
+          height: 80vh;
+          overflow-y: auto;
+      }
+      /* .e {
+          grid-column: 2;
+          grid-row: 25;
+          height: 400%;
+    } */
+
+.room {
+  position: relative;
+  width: 99%;
+  height: 0;
+  padding-bottom: 56.25%;
+}
+.main-video {
+  position: absolute;
+  top: 0;
+  left: 0.5%;
+  width: 100%;
+  height: 99%;
 }

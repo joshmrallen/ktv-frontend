@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
 import ResultsContainer from './containers/ResultsContainer'
-import Search from './components/Search'
 import NavBar from './components/NavBar';
 import {Route, Switch, withRouter, NavLink} from 'react-router-dom'
 import Room from './containers/Room'
+import FavoritesContainer from './containers/FavoritesContainer'
+import Home from './components/Home'
 
 const API_URL = 'http://localhost:3000'
 
@@ -12,10 +13,12 @@ class App extends React.Component {
   
   state = {
     searchQuery: '',
-    searchResults: [],
+    searchResults: ["x3bDhtuC5yk","caITRQWpBHs"],
+    favorites:["x3bDhtuC5yk","caITRQWpBHs"],
     nextToken: false,
     prevToken: false,
-    roomId: false
+    roomId: false,
+    addFav: "",
   }
 
   appSearchHandler = (event) => {
@@ -124,24 +127,55 @@ class App extends React.Component {
     /* put this.props.history.push('/room') in callback function of this.setState
     to redirect to the new room after the thumbnail is clicked */
   }
+  //This is functions for the add favs piece
+  addChanger=(event)=>{
+    console.log("this is my add changer",event.target.value)
+    event.persist()
+    this.setState(()=>({
+      addFav: event.target.value
+  }))
+}
+
+  addhandler=(event)=>{
+    event.persist()
+    event.preventDefault()
+    let videoID=this.youtube_parser(this.state.addFav)
+    if (!this.state.favorites.includes(videoID)){
+      let newArray= [videoID, ...this.state.favorites]
+      this.setState(()=>({
+        favorites: newArray
+    }))
+    }
+    console.log("this is my add handler",videoID)
+  }
+
+    youtube_parser=(url)=>{
+      let regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+      let match = url.match(regExp);
+      return (match&&match[7].length===11)? match[7] : false;
+    }
+
+    addToFavs=()=>{
+      console.log("this is my add to favs")
+      let videoID= this.state.roomId
+      if (!this.state.favorites.includes(videoID)){
+        let newArray= [videoID, ...this.state.favorites]
+        this.setState(()=>({
+          favorites: newArray
+        }))
+      }
+    }
   
   render(){
     // console.log(this.state)
     return (
-      <>
+      <div className='wrapper'>
         <NavBar roomId={this.state.roomId} />
 
         <Switch>
-
           <Route path="/search" render={()=> {
             return(
               <>
-                <Search 
-                  searchHandler={this.appSearchHandler} 
-                  searchQuery={this.state.searchQuery} 
-                  appSubmitHandler={this.appSubmitHandler} 
-                />
-
                 <ResultsContainer 
                   searchResults={this.state.searchResults} 
                   next={this.next} 
@@ -149,37 +183,56 @@ class App extends React.Component {
                   prevToken={this.state.prevToken} 
                   nextToken={this.state.nextToken} 
                   appRoomMaker={this.appRoomMaker}
+                  searchHandler={this.appSearchHandler} 
+                  searchQuery={this.state.searchQuery} 
+                  appSubmitHandler={this.appSubmitHandler} 
                 />
               </>
             )
           }} />
-
           <Route path="/room" render={()=> {
             return(
               <>
-                { this.state.roomId ? <Room roomId={this.state.roomId} /> : null}
+                { this.state.roomId ? <Room roomId={this.state.roomId} addToFavs={this.addToFavs}/> : null}
+                <ResultsContainer 
+                  searchResults={this.state.searchResults} 
+                  next={this.next} 
+                  prev={this.prev}
+                  prevToken={this.state.prevToken} 
+                  nextToken={this.state.nextToken} 
+                  appRoomMaker={this.appRoomMaker}
+                  searchHandler={this.appSearchHandler} 
+                  searchQuery={this.state.searchQuery} 
+                  appSubmitHandler={this.appSubmitHandler} 
+                />
+                {
+                this.state.favorites ? 
+                  <FavoritesContainer 
+                    favs={this.state.favorites} 
+                    appRoomMaker={this.appRoomMaker}
+                    addChanger={this.addChanger}
+                    addhandler={this.addhandler}
+                    addFav={this.state.addFav}
+                  />
+                :
+                null
+                }
+              </>
+            )    
+          }} />
+          <Route path="/" render={()=> {
+            return(
+              <>
+                <Home />
               </>
             )
           }} />
-
-          <Route path='/' render={()=> {
-            return(
-              <>
-                <h1>OMG KTV Let's Sing!</h1>
-                <div>
-                  <NavLink to="/search"><h3>Login and Search for Songs!</h3></NavLink>
-                </div>
-              </>
-            )
-          }}/>
-
         </Switch>
-
-        
         
 
+        
 
-      </> 
+      </div> 
     )
   }
 }

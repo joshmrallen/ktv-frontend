@@ -4,16 +4,12 @@ import { NavLink } from 'react-router-dom'
 const NavBar = (props) => {
 
     return(
-        <div style={{border: 'solid', textAlign: 'center'}}>
-            <div>
-                <NavLink to="/">Home</NavLink>
-            </div>
-            <div>
-                <NavLink to="/search">Search Songs</NavLink>
-            </div>
-            <div>
-                { props.roomId ? <NavLink to="/room">Room</NavLink> : null }
-            </div>
+        <div className='box nav'>
+            
+            <NavLink className="link" activeClassName="activeLink" exact={true} to="/">Home</NavLink>
+            <NavLink className="link" activeClassName="activeLink" to="/search">Search for Songs</NavLink>
+            {props.roomId ? <NavLink className="link" activeClassName="activeLink" to="/room">Room</NavLink> : null}
+            
         </div>
     )
 }
