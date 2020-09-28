@@ -3,7 +3,7 @@ import './App.css';
 import ResultsContainer from './containers/ResultsContainer'
 import Search from './components/Search'
 import NavBar from './components/NavBar';
-import {Route} from 'react-router-dom'
+import {Route, Switch, withRouter, NavLink} from 'react-router-dom'
 import Room from './containers/Room'
 
 const API_URL = 'http://localhost:3000'
@@ -117,41 +117,74 @@ class App extends React.Component {
 
   appRoomMaker = (videoId) => {
     console.log('This is our room maker. RoomId is currently: ', this.state.roomId)
-    this.setState(()=>({
-      roomId: videoId
-    }))
+    this.setState(()=>({ roomId: videoId }), ()=>{
+      this.props.history.push('/room')
+    })
     console.log('RoomId is now: ', this.state.roomId)
+    /* put this.props.history.push('/room') in callback function of this.setState
+    to redirect to the new room after the thumbnail is clicked */
   }
   
   render(){
     // console.log(this.state)
     return (
-      <div>
-        <Route path='/' component={NavBar}  />
-        { this.state.roomId ? <Room roomId={this.state.roomId} /> : null}
-        <h1>OMG KTV Let's Sing!</h1>
-        <Search 
-          searchHandler={this.appSearchHandler} 
-          searchQuery={this.state.searchQuery} 
-          appSubmitHandler={this.appSubmitHandler} 
-        />
+      <>
+        <NavBar roomId={this.state.roomId} />
 
-        <ResultsContainer 
-          searchResults={this.state.searchResults} 
-          next={this.next} 
-          prev={this.prev}
-          prevToken={this.state.prevToken} 
-          nextToken={this.state.nextToken} 
-          appRoomMaker={this.appRoomMaker}
-        />
+        <Switch>
+
+          <Route path="/search" render={()=> {
+            return(
+              <>
+                <Search 
+                  searchHandler={this.appSearchHandler} 
+                  searchQuery={this.state.searchQuery} 
+                  appSubmitHandler={this.appSubmitHandler} 
+                />
+
+                <ResultsContainer 
+                  searchResults={this.state.searchResults} 
+                  next={this.next} 
+                  prev={this.prev}
+                  prevToken={this.state.prevToken} 
+                  nextToken={this.state.nextToken} 
+                  appRoomMaker={this.appRoomMaker}
+                />
+              </>
+            )
+          }} />
+
+          <Route path="/room" render={()=> {
+            return(
+              <>
+                { this.state.roomId ? <Room roomId={this.state.roomId} /> : null}
+              </>
+            )
+          }} />
+
+          <Route path='/' render={()=> {
+            return(
+              <>
+                <h1>OMG KTV Let's Sing!</h1>
+                <div>
+                  <NavLink to="/search"><h3>Login and Search for Songs!</h3></NavLink>
+                </div>
+              </>
+            )
+          }}/>
+
+        </Switch>
+
+        
+        
 
 
-      </div> 
+      </> 
     )
   }
 }
 
-export default App;
+export default withRouter(App);
 
 
 
