@@ -124,4 +124,7 @@ body {
         grid-row: 12;
         grid-row-end:span 3;
         overflow-y: auto;
+        text-align: center;
+        font-weight: bold;
+        font-size: 2rem;
     }

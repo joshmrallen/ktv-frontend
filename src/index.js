@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom'
-import { ZoomMtg } from ‘@zoomus/websdk‘;
+// import { ZoomMtg } from ‘@zoomus/websdk‘;
 
 
 ReactDOM.render(
