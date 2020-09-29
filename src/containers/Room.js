@@ -9,15 +9,19 @@ const Room = (props) => {
 
 
     return(
+        <>
         <div className='box room'>
             <Video videoId={props.roomId} />
             <button className= 'pause'>Pause</button>
             <button className= 'addVideo' onClick={props.addToFavs}>Add to Favs</button>
+        </div>
+        <div className='box lyrics'>
             <LyricBox lyrics={props.lyrics} />
             {/* 
             <SearchContainer />
             <FavoritesContainer /> */}
         </div>
+        </>
     )
 }
 
