@@ -9,9 +9,9 @@ const LyricBox = (props) => {
     const lines = lyricsArray.map(line => <p>{line}</p>)
 
     return(
-        <div className="lyricBox">
-            {lines}
-        </div>
+        <>
+        {lines}
+        </>
     )
 }
 

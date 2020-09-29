@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-const Home = () => {
+const Home = (props) => {
 
     return(
         <div className="home">
@@ -10,7 +10,7 @@ const Home = () => {
 
             <div className="bottom-image">
                 <h1 style={{visibility: 'hidden'}}>stuff</h1>
-                
+                {props.user ? "Go Sing!" : <NavLink to="/signup">SignUp and Sing!</NavLink>}
             </div>
         </div>
     )

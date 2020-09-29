@@ -6,6 +6,7 @@ import {Route, Switch, withRouter, NavLink} from 'react-router-dom'
 import Room from './containers/Room'
 import FavoritesContainer from './containers/FavoritesContainer'
 import Home from './components/Home'
+import SignUp from './components/SignUp'
 
 const API_URL = 'http://localhost:3000'
 const K = {
@@ -28,7 +29,13 @@ class App extends React.Component {
     prevToken: false,
     roomId: false,
     addFav: "",
-    lyrics: ""
+    lyrics: "",
+    signup_name: "",
+    signup_email: "",
+    signup_password: "",
+    user: null,
+    login_email: "",
+    login_password: ""
   }
 
   appSearchHandler = (event) => {
@@ -70,9 +77,9 @@ class App extends React.Component {
       // }))
   }
 
-  resultsGetter = () => {
+  // resultsGetter = () => {
 
-  }
+  // }
 
   next = ()=>{
     console.log("this is my next")
@@ -189,6 +196,37 @@ class App extends React.Component {
         }))
       })
     }   
+
+  signupChangeHandler = (event) => {
+    console.log(`${event.target.name}: ${event.target.value}`)
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  signupSubmitHandler = (event) => {
+    event.preventDefault()
+    console.log("Signup happening!")
+    fetch(`${API_URL}/users`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json'
+      },
+      body: JSON.stringify({
+        user: {
+          name: this.state.signup_name,
+          email: this.state.signup_email,
+          password: this.state.signup_password
+        }
+      })
+    })
+      .then(r => r.json())
+      .then(data => {
+        console.log(data)
+        this.setState({ user: data.user}, this.props.history.push("/search"))
+      })
+  }
   
   render(){
     // console.log(this.state)
@@ -197,6 +235,13 @@ class App extends React.Component {
         <NavBar roomId={this.state.roomId} />
 
         <Switch>
+          <Route path="/signup" render={()=> {
+            return(
+              <>
+                <SignUp changeHandler={this.signupChangeHandler} submitHandler={this.signupSubmitHandler} name={this.state.signup_name} email={this.state.signup_email} password={this.state.signup_password} />
+              </>
+            )
+          }} />
           <Route path="/search" render={()=> {
             return(
               <>
@@ -247,7 +292,7 @@ class App extends React.Component {
           <Route path="/" render={()=> {
             return(
               <>
-                <Home />
+                <Home user={this.state.user} />
               </>
             )
           }} />
