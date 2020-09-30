@@ -39,6 +39,23 @@ class App extends React.Component {
     login_password: ""
   }
 
+  componentDidMount=()=>{
+    const token = localStorage.getItem("token")
+    console.log("This is ya user, you fool")
+    if (token){
+      fetch('http://localhost:3000/profile',{
+        method:"GET",
+        headers:{Authorization:`bearer ${token}`},
+      }).then(r=>r.json())
+      .then(data=>{
+        console.log(data)
+        this.setState({ user: data.user}, this.props.history.push("/search"))
+      })
+    }else {
+      this.props.history.push("/")
+    }
+  }
+
   // appSearchHandler = (event) => {
   //   //setState here to change searchQuery to value received from Search
   //   event.persist()
@@ -199,7 +216,7 @@ class App extends React.Component {
     }   
 
   changeHandler = (event) => {
-    console.log(`${event.target.name}: ${event.target.value}`)
+    // console.log(`${event.target.name}: ${event.target.value}`)
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -225,6 +242,7 @@ class App extends React.Component {
       .then(r => r.json())
       .then(data => {
         console.log(data)
+        localStorage.setItem("token",data.jwt)
         this.setState({ user: data.user}, this.props.history.push("/search"))
       })
   }
@@ -248,12 +266,14 @@ class App extends React.Component {
       .then(r => r.json())
       .then(data => {
         console.log(data)
+        //Building Local Storage here, Joshie, boi
+        localStorage.setItem("token",data.jwt)
         this.setState({ user: data.user}, this.props.history.push("/search"))
       })
   }
   
   render(){
-    console.log(this.state.user)
+    // console.log(this.state.user)
     return (
       <div className='wrapper'>
         <NavBar roomId={this.state.roomId} user={this.state.user} />
