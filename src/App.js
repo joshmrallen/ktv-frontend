@@ -164,6 +164,22 @@ class App extends React.Component {
     to redirect to the new room after the thumbnail is clicked */
   }
 
+  /* 
+  room model: user_id, videoId (string from youtube url)
+
+  1. post request: 
+          route: send to RoomController create action
+                post '/rooms', to: 'rooms#create'
+          send user_id and videoId (the string from youtube search result)
+  
+      1. Video.create_or_find_by(youTubeId: videoId)
+              videoId is the youtube id found in the url or our search results which is a string
+              when do we get the data for the other columns for this record?
+                  
+      2. Room.create(user_id, video_id)
+
+  */
+
 
   //This is functions for the add favs piece
 //   addChanger=(event)=>{
