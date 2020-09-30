@@ -271,15 +271,20 @@ class App extends React.Component {
         this.setState({ user: data.user}, this.props.history.push("/search"))
       })
   }
+
+  logout =()=>{
+    console.log("this is my logout")
+    localStorage.clear("token")
+    this.setState(()=>({user:false}))
+  }
   
   render(){
     // console.log(this.state.user)
     return (
-      <div className='wrapper'>
-        <NavBar roomId={this.state.roomId} user={this.state.user} />
 
-        <Switch>
-          <Route path="/signup" render={()=> {
+      <div className='wrapper'>
+        <NavBar roomId={this.state.roomId} user={this.state.user} logout={this.logout}/>
+        <Route path="/signup" render={()=> {
             return(
               <>
                 <SignUp changeHandler={this.changeHandler} submitHandler={this.signupSubmitHandler} name={this.state.signup_name} email={this.state.signup_email} password={this.state.signup_password} />
@@ -293,6 +298,15 @@ class App extends React.Component {
               </>
             )
           }} />
+            <Route path="/" render={()=> {
+            return(
+              <>
+                <Home user={this.state.user} />
+              </>
+            )
+          }} />
+        {this.state.user === false ? null :
+        <Switch>
           <Route path="/search" render={()=> {
             return(
               <>
@@ -313,7 +327,7 @@ class App extends React.Component {
           <Route path="/room" render={()=> {
             return(
               <>
-                { this.state.roomId ? <Room roomId={this.state.roomId} addToFavs={this.addToFavs} lyrics={this.state.lyrics} /> : null}
+                { this.state.roomId && this.state.user ? <Room roomId={this.state.roomId} addToFavs={this.addToFavs} lyrics={this.state.lyrics} /> : null}
                 <ResultsContainer 
                   searchResults={this.state.searchResults} 
                   next={this.next} 
@@ -326,7 +340,7 @@ class App extends React.Component {
                   appSubmitHandler={this.appSubmitHandler} 
                 />
                 {
-                this.state.favorites ? 
+                this.state.favorites && this.state.user ? 
                   <FavoritesContainer 
                     favs={this.state.favorites} 
                     appRoomMaker={this.appRoomMaker}
@@ -340,14 +354,8 @@ class App extends React.Component {
               </>
             )    
           }} />
-          <Route path="/" render={()=> {
-            return(
-              <>
-                <Home user={this.state.user} />
-              </>
-            )
-          }} />
         </Switch>
+    }
         
 
         

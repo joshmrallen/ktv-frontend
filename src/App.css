@@ -42,7 +42,7 @@ body {
         grid-row: 2;
         text-align: center;
         background-image: url('./images/lone_mic_large.jpg');
-        background-size: contain;
+        background-size: cover;
         grid-row-end:span 9;
 
       }
