@@ -1,14 +1,14 @@
 import React from 'react'
 
 const Search =(props)=>{
-    console.log(props)
+    // console.log(props)
         return(
                 <div className='search'>
                     <form onSubmit={props.appSubmitHandler}>
                         <input 
                             className='text'
                             type='text' 
-                            name="search" 
+                            name="searchQuery" 
                             placeholder="Search for Song" 
                             value={props.searchQuery} 
                             onChange={props.searchHandler} 
@@ -19,6 +19,7 @@ const Search =(props)=>{
                             value='Search' 
                         />
                     </form>
+                    <br/>
                 </div>
             )
     

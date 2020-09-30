@@ -8,7 +8,7 @@ const Add =(props)=>{
                         <input
                             className=' text'
                             type='text' 
-                            name="add" 
+                            name="addFav" 
                             placeholder="Add A Song" 
                             value={props.addFav} 
                             onChange={props.addChanger} 
@@ -19,6 +19,7 @@ const Add =(props)=>{
                             value='Add A Song' 
                         />
                     </form>
+                    <br/>
                 </div>
             )
     

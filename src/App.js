@@ -7,6 +7,7 @@ import Room from './containers/Room'
 import FavoritesContainer from './containers/FavoritesContainer'
 import Home from './components/Home'
 import SignUp from './components/SignUp'
+import Login from './components/Login'
 
 const API_URL = 'http://localhost:3000'
 const K = {
@@ -33,19 +34,36 @@ class App extends React.Component {
     signup_name: "",
     signup_email: "",
     signup_password: "",
-    user: null,
+    user: false,
     login_email: "",
     login_password: ""
   }
 
-  appSearchHandler = (event) => {
-    //setState here to change searchQuery to value received from Search
-    event.persist()
-    this.setState(()=>({
-      searchQuery: event.target.value
-    }))
-    console.log("This is our change handler. Here's the query:", event.target.value)
+  componentDidMount=()=>{
+    const token = localStorage.getItem("token")
+    console.log("This is ya user, you fool")
+    if (token){
+      fetch('http://localhost:3000/profile',{
+        method:"GET",
+        headers:{Authorization:`bearer ${token}`},
+      }).then(r=>r.json())
+      .then(data=>{
+        console.log(data)
+        this.setState({ user: data.user}, this.props.history.push("/search"))
+      })
+    }else {
+      this.props.history.push("/")
+    }
   }
+
+  // appSearchHandler = (event) => {
+  //   //setState here to change searchQuery to value received from Search
+  //   event.persist()
+  //   this.setState(()=>({
+  //     searchQuery: event.target.value
+  //   }))
+  //   console.log("This is our change handler. Here's the query:", event.target.value)
+  // }
 
   appSubmitHandler = (event) => {
     event.persist()
@@ -146,15 +164,31 @@ class App extends React.Component {
     to redirect to the new room after the thumbnail is clicked */
   }
 
+  /* 
+  room model: user_id, videoId (string from youtube url)
+
+  1. post request: 
+          route: send to RoomController create action
+                post '/rooms', to: 'rooms#create'
+          send user_id and videoId (the string from youtube search result)
+  
+      1. Video.create_or_find_by(youTubeId: videoId)
+              videoId is the youtube id found in the url or our search results which is a string
+              when do we get the data for the other columns for this record?
+                  
+      2. Room.create(user_id, video_id)
+
+  */
+
 
   //This is functions for the add favs piece
-  addChanger=(event)=>{
-    console.log("this is my add changer",event.target.value)
-    event.persist()
-    this.setState(()=>({
-      addFav: event.target.value
-  }))
-}
+//   addChanger=(event)=>{
+//     console.log("this is my add changer",event.target.value)
+//     event.persist()
+//     this.setState(()=>({
+//       addFav: event.target.value
+//   }))
+// }
 
   addhandler=(event)=>{
     event.persist()
@@ -197,8 +231,8 @@ class App extends React.Component {
       })
     }   
 
-  signupChangeHandler = (event) => {
-    console.log(`${event.target.name}: ${event.target.value}`)
+  changeHandler = (event) => {
+    // console.log(`${event.target.name}: ${event.target.value}`)
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -224,24 +258,71 @@ class App extends React.Component {
       .then(r => r.json())
       .then(data => {
         console.log(data)
+        localStorage.setItem("token",data.jwt)
         this.setState({ user: data.user}, this.props.history.push("/search"))
       })
   }
+
+  loginSubmitHandler = (event) => {
+    event.preventDefault()
+    console.log("Getting Logins from my cousin Greg",)
+    fetch(`${API_URL}/login`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json'
+      },
+      body: JSON.stringify({
+        user: {
+          email: this.state.login_email,
+          password: this.state.login_password
+        }
+      })
+    })
+      .then(r => r.json())
+      .then(data => {
+        console.log(data)
+        //Building Local Storage here, Joshie, boi
+        localStorage.setItem("token",data.jwt)
+        this.setState({ user: data.user}, this.props.history.push("/search"))
+      })
+  }
+
+  logout =()=>{
+    console.log("this is my logout")
+    localStorage.clear("token")
+    this.setState(()=>({user:false}))
+  }
   
   render(){
-    // console.log(this.state)
+    // console.log(this.state.user)
     return (
-      <div className='wrapper'>
-        <NavBar roomId={this.state.roomId} />
 
-        <Switch>
-          <Route path="/signup" render={()=> {
+      <div className='wrapper'>
+        <NavBar roomId={this.state.roomId} user={this.state.user} logout={this.logout}/>
+        <Route path="/signup" render={()=> {
             return(
               <>
-                <SignUp changeHandler={this.signupChangeHandler} submitHandler={this.signupSubmitHandler} name={this.state.signup_name} email={this.state.signup_email} password={this.state.signup_password} />
+                <SignUp changeHandler={this.changeHandler} submitHandler={this.signupSubmitHandler} name={this.state.signup_name} email={this.state.signup_email} password={this.state.signup_password} />
               </>
             )
           }} />
+          <Route path="/login" render={()=> {
+            return(
+              <>
+                <Login changeHandler={this.changeHandler} submitHandler={this.loginSubmitHandler} email={this.state.login_email} password={this.state.login_password} />
+              </>
+            )
+          }} />
+            <Route path="/" render={()=> {
+            return(
+              <>
+                <Home user={this.state.user} />
+              </>
+            )
+          }} />
+        {this.state.user === false ? null :
+        <Switch>
           <Route path="/search" render={()=> {
             return(
               <>
@@ -252,7 +333,7 @@ class App extends React.Component {
                   prevToken={this.state.prevToken} 
                   nextToken={this.state.nextToken} 
                   appRoomMaker={this.appRoomMaker}
-                  searchHandler={this.appSearchHandler} 
+                  searchHandler={this.changeHandler} 
                   searchQuery={this.state.searchQuery} 
                   appSubmitHandler={this.appSubmitHandler} 
                 />
@@ -262,7 +343,7 @@ class App extends React.Component {
           <Route path="/room" render={()=> {
             return(
               <>
-                { this.state.roomId ? <Room roomId={this.state.roomId} addToFavs={this.addToFavs} lyrics={this.state.lyrics} /> : null}
+                { this.state.roomId && this.state.user ? <Room roomId={this.state.roomId} addToFavs={this.addToFavs} lyrics={this.state.lyrics} /> : null}
                 <ResultsContainer 
                   searchResults={this.state.searchResults} 
                   next={this.next} 
@@ -270,16 +351,16 @@ class App extends React.Component {
                   prevToken={this.state.prevToken} 
                   nextToken={this.state.nextToken} 
                   appRoomMaker={this.appRoomMaker}
-                  searchHandler={this.appSearchHandler} 
+                  searchHandler={this.changeHandler} 
                   searchQuery={this.state.searchQuery} 
                   appSubmitHandler={this.appSubmitHandler} 
                 />
                 {
-                this.state.favorites ? 
+                this.state.favorites && this.state.user ? 
                   <FavoritesContainer 
                     favs={this.state.favorites} 
                     appRoomMaker={this.appRoomMaker}
-                    addChanger={this.addChanger}
+                    addChanger={this.changeHandler}
                     addhandler={this.addhandler}
                     addFav={this.state.addFav}
                   />
@@ -289,14 +370,8 @@ class App extends React.Component {
               </>
             )    
           }} />
-          <Route path="/" render={()=> {
-            return(
-              <>
-                <Home user={this.state.user} />
-              </>
-            )
-          }} />
         </Switch>
+    }
         
 
         

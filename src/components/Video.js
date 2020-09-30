@@ -10,7 +10,7 @@ const Video = (props) => {
                 // height='auto'
                 //width="100%" scrolling="yes"
                 title={props.el} 
-                src={`https://www.youtube.com/embed/${props.videoId}?autoplay=1&cc_load_policy=1&cc_lang_pref=en`}
+                src={`https://www.youtube.com/embed/${props.videoId}?rel=0&autoplay=1&cc_load_policy=1&cc_lang_pref=en`}
                 //frameBorder="0" 
                 allow="autoplay" 
                 //allowFullScreen 
