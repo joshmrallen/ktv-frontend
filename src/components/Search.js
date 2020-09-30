@@ -8,7 +8,7 @@ const Search =(props)=>{
                         <input 
                             className='text'
                             type='text' 
-                            name="search" 
+                            name="searchQuery" 
                             placeholder="Search for Song" 
                             value={props.searchQuery} 
                             onChange={props.searchHandler} 
@@ -19,6 +19,7 @@ const Search =(props)=>{
                             value='Search' 
                         />
                     </form>
+                    <br/>
                 </div>
             )
     

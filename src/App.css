@@ -27,10 +27,24 @@ body {
       grid-gap: 2rem;
       }
 
+      .nav {
+        display: flex;
+        justify-content: space-evenly;
+        grid-column: 1 / span 3 ;
+        grid-template-rows: repeat(3, minmax(15px, auto));
+        grid-row: 1;
+        font-size: 15px;
+        padding: 5px;
+    }
+
       .home {
         grid-column: 1 / span 3;
         grid-row: 2;
         text-align: center;
+        background-image: url('./images/lone_mic_large.jpg');
+        background-size: contain;
+        grid-row-end:span 9;
+
       }
 
       .bottom-image {
@@ -47,15 +61,6 @@ body {
           font-size: 100%;
           border: thick;
           
-      }
-  
-      .nav {
-          display: subgrid;
-          grid-column: 1 / span 3 ;
-          grid-template-rows: repeat(3, minmax(15px, auto));
-          grid-row: 1;
-          font-size: 15px;
-          padding: 5px;
       }
 
       .link {

@@ -7,6 +7,7 @@ import Room from './containers/Room'
 import FavoritesContainer from './containers/FavoritesContainer'
 import Home from './components/Home'
 import SignUp from './components/SignUp'
+import Login from './components/Login'
 
 const API_URL = 'http://localhost:3000'
 const K = {
@@ -33,19 +34,19 @@ class App extends React.Component {
     signup_name: "",
     signup_email: "",
     signup_password: "",
-    user: null,
+    user: false,
     login_email: "",
     login_password: ""
   }
 
-  appSearchHandler = (event) => {
-    //setState here to change searchQuery to value received from Search
-    event.persist()
-    this.setState(()=>({
-      searchQuery: event.target.value
-    }))
-    console.log("This is our change handler. Here's the query:", event.target.value)
-  }
+  // appSearchHandler = (event) => {
+  //   //setState here to change searchQuery to value received from Search
+  //   event.persist()
+  //   this.setState(()=>({
+  //     searchQuery: event.target.value
+  //   }))
+  //   console.log("This is our change handler. Here's the query:", event.target.value)
+  // }
 
   appSubmitHandler = (event) => {
     event.persist()
@@ -148,13 +149,13 @@ class App extends React.Component {
 
 
   //This is functions for the add favs piece
-  addChanger=(event)=>{
-    console.log("this is my add changer",event.target.value)
-    event.persist()
-    this.setState(()=>({
-      addFav: event.target.value
-  }))
-}
+//   addChanger=(event)=>{
+//     console.log("this is my add changer",event.target.value)
+//     event.persist()
+//     this.setState(()=>({
+//       addFav: event.target.value
+//   }))
+// }
 
   addhandler=(event)=>{
     event.persist()
@@ -197,7 +198,7 @@ class App extends React.Component {
       })
     }   
 
-  signupChangeHandler = (event) => {
+  changeHandler = (event) => {
     console.log(`${event.target.name}: ${event.target.value}`)
     this.setState({
       [event.target.name]: event.target.value
@@ -227,18 +228,48 @@ class App extends React.Component {
         this.setState({ user: data.user}, this.props.history.push("/search"))
       })
   }
+
+  loginSubmitHandler = (event) => {
+    event.preventDefault()
+    console.log("Getting Logins from my cousin Greg",)
+    fetch(`${API_URL}/login`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        accept: 'application/json'
+      },
+      body: JSON.stringify({
+        user: {
+          email: this.state.login_email,
+          password: this.state.login_password
+        }
+      })
+    })
+      .then(r => r.json())
+      .then(data => {
+        console.log(data)
+        this.setState({ user: data.user}, this.props.history.push("/search"))
+      })
+  }
   
   render(){
-    // console.log(this.state)
+    console.log(this.state.user)
     return (
       <div className='wrapper'>
-        <NavBar roomId={this.state.roomId} />
+        <NavBar roomId={this.state.roomId} user={this.state.user} />
 
         <Switch>
           <Route path="/signup" render={()=> {
             return(
               <>
-                <SignUp changeHandler={this.signupChangeHandler} submitHandler={this.signupSubmitHandler} name={this.state.signup_name} email={this.state.signup_email} password={this.state.signup_password} />
+                <SignUp changeHandler={this.changeHandler} submitHandler={this.signupSubmitHandler} name={this.state.signup_name} email={this.state.signup_email} password={this.state.signup_password} />
+              </>
+            )
+          }} />
+          <Route path="/login" render={()=> {
+            return(
+              <>
+                <Login changeHandler={this.changeHandler} submitHandler={this.loginSubmitHandler} email={this.state.login_email} password={this.state.login_password} />
               </>
             )
           }} />
@@ -252,7 +283,7 @@ class App extends React.Component {
                   prevToken={this.state.prevToken} 
                   nextToken={this.state.nextToken} 
                   appRoomMaker={this.appRoomMaker}
-                  searchHandler={this.appSearchHandler} 
+                  searchHandler={this.changeHandler} 
                   searchQuery={this.state.searchQuery} 
                   appSubmitHandler={this.appSubmitHandler} 
                 />
@@ -270,7 +301,7 @@ class App extends React.Component {
                   prevToken={this.state.prevToken} 
                   nextToken={this.state.nextToken} 
                   appRoomMaker={this.appRoomMaker}
-                  searchHandler={this.appSearchHandler} 
+                  searchHandler={this.changeHandler} 
                   searchQuery={this.state.searchQuery} 
                   appSubmitHandler={this.appSubmitHandler} 
                 />
@@ -279,7 +310,7 @@ class App extends React.Component {
                   <FavoritesContainer 
                     favs={this.state.favorites} 
                     appRoomMaker={this.appRoomMaker}
-                    addChanger={this.addChanger}
+                    addChanger={this.changeHandler}
                     addhandler={this.addhandler}
                     addFav={this.state.addFav}
                   />
