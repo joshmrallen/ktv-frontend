@@ -213,10 +213,29 @@ class App extends React.Component {
       console.log("this is my add to favs")
       let videoID= this.state.roomId
       if (!this.state.favorites.includes(videoID)){
-        let newArray= [videoID, ...this.state.favorites]
-        this.setState(()=>({
-          favorites: newArray
-        }))
+        // let newArray= [videoID, ...this.state.favorites]
+        const favorite = {
+          user_id: this.state.user,
+          video_id: videoID,
+        }
+        fetch(`${API_URL}/favorites`, {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            accept: 'application/json'
+          },
+          body: JSON.stringify(
+            favorite
+          )
+        })
+        .then(r => r.json())
+        .then(data=>{
+          console.log(data)
+          let newArray= [data.youTubeId, ...this.state.favorites]
+          this.setState(()=>({
+            favorites: newArray
+          }))
+        })
       }
     }
 
