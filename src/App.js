@@ -29,7 +29,7 @@ class App extends React.Component {
     favorites:["x3bDhtuC5yk","caITRQWpBHs"],
     nextToken: false,
     prevToken: false,
-    roomId: false,
+    currentVideo: false,
     addFav: "",
     lyrics: "",
     signup_name: "",
@@ -50,7 +50,7 @@ class App extends React.Component {
       }).then(r=>r.json())
       .then(data=>{
         console.log(data)
-        this.setState({ user: data.user, favorites: data.user.videos.map(el=>el.youTubeId)}, this.props.history.push("/search"))
+        this.setState({ user: data.user, favorites: data.user.videos.map(el=>el.youTubeId)}, this.props.history.push("/room"))
       })
     }else {
       this.props.history.push("/")
@@ -144,16 +144,9 @@ class App extends React.Component {
 
   appRoomMaker = (videoId) => {
     console.log('This is our room maker. RoomId is currently: ', this.state.roomId)
-    //need to have room video persisted on backend to get all details from backend
-    //and parse the description for lyrics (change getLyrics() to perform the parse)
-    //post request
-    // this.getLyrics()
-    this.setState(()=>({ roomId: videoId }), ()=>{
-      this.props.history.push('/room')
-    })
-    console.log('RoomId is now: ', this.state.roomId)
-    /* put this.props.history.push('/room') in callback function of this.setState
-    to redirect to the new room after the thumbnail is clicked */
+    
+    this.setState(()=>({ currentVideo: videoId }))
+    console.log('Current Video is now: ', this.state.currentVideo)
   }
 
   /* 
@@ -326,7 +319,7 @@ class App extends React.Component {
         console.log(data)
         //Building Local Storage here, Joshie, boi
         localStorage.setItem("token",data.jwt)
-        this.setState({ user: data.user}, this.props.history.push("/search"))
+        this.setState({ user: data.user}, this.props.history.push("/room"))
       })
   }
 
@@ -368,23 +361,6 @@ class App extends React.Component {
           }} />
         {this.state.user === false ? null :
         <Switch>
-          <Route path="/search" render={()=> {
-            return(
-              <>
-                <ResultsContainer 
-                  searchResults={this.state.searchResults} 
-                  next={this.next} 
-                  prev={this.prev}
-                  prevToken={this.state.prevToken} 
-                  nextToken={this.state.nextToken} 
-                  appRoomMaker={this.appRoomMaker}
-                  searchHandler={this.changeHandler} 
-                  searchQuery={this.state.searchQuery} 
-                  appSubmitHandler={this.appSubmitHandler} 
-                />
-              </>
-            )
-          }} />
           <Route path="/room" render={()=> {
             return(
               <>

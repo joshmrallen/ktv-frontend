@@ -5,10 +5,12 @@ const Home = (props) => {
 
     return(
         <div className="box home">
-            <h1>Welcome to Wu KTV! <NavLink className="link" to="/search">Sing!</NavLink></h1>
+            <span>
+                <h1>Welcome to Wu KTV!</h1>
+            </span>
             <h1 style={{visibility: 'hidden'}}>stuff</h1>
-            {props.user ? "Go Sing!" : <NavLink to="/signup">SignUp and Sing!</NavLink>}
-            {props.user ? "Go Sing!" : <NavLink to="/login">Login and Sing!</NavLink>}
+            {props.user ? null : <NavLink to="/signup">SignUp and Sing!</NavLink>}
+            {props.user ? null : <NavLink to="/login">Login and Sing!</NavLink>}
         </div>
     )
 }
