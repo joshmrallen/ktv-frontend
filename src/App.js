@@ -49,7 +49,7 @@ class App extends React.Component {
       }).then(r=>r.json())
       .then(data=>{
         console.log(data)
-        this.setState({ user: data.user}, this.props.history.push("/search"))
+        this.setState({ user: data.user, favorites: data.user.videos.map(el=>el.youTubeId)}, this.props.history.push("/search"))
       })
     }else {
       this.props.history.push("/")
@@ -195,10 +195,27 @@ class App extends React.Component {
     event.preventDefault()
     let videoID=this.youtube_parser(this.state.addFav)
     if (!this.state.favorites.includes(videoID)){
-      let newArray= [videoID, ...this.state.favorites]
-      this.setState(()=>({
-        favorites: newArray
-    }))
+      const favObj = {
+        user_id: this.state.user, //We are sending the entire user to our back end. Our backend is going to take the email information for this object.
+        video_id: videoID         // We are then going to use the email to find the user in the back end. We are also creating a Video record with this video ID(string)
+      }                           // With our user ID and video ID finally created, we will create the favorite user instance. 
+      fetch(`${API_URL}/favorites`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          accept: 'application/json'
+        },
+        body: JSON.stringify(
+          favObj
+        )
+      })
+      .then(r=>r.json())
+      .then(data=>{
+          let newArray= [data.youTubeId, ...this.state.favorites]
+          this.setState(()=>({
+            favorites: newArray
+        }))
+      })
     }
     console.log("this is my add handler",videoID)
   }
@@ -209,7 +226,7 @@ class App extends React.Component {
       return (match&&match[7].length===11)? match[7] : false;
     }
 
-    addToFavs=()=>{
+    addToFavs=()=>{ //should we change favs into a quene in the front end
       console.log("this is my add to favs")
       let videoID= this.state.roomId
       if (!this.state.favorites.includes(videoID)){
@@ -231,7 +248,7 @@ class App extends React.Component {
         .then(r => r.json())
         .then(data=>{
           console.log(data)
-          let newArray= [data.youTubeId, ...this.state.favorites]
+          let newArray= [data.video.youTubeId, ...this.state.favorites]
           this.setState(()=>({
             favorites: newArray
           }))
