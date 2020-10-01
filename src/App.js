@@ -383,7 +383,24 @@ class App extends React.Component {
 
 export default withRouter(App);
 
+/* TODO 9/28
+1. for lyrics:
+      in getLyrics, make call to youtube video api
+          get artist name and song name from the videoId
+      Interpolate the artist name and song name in the lyrics api call
+2. Add design to LyricsBox
+      fix width and height
+      add scroll
+3. Research sign up/login and JWT from Tashawn's videos
+      implement by tomorrow, Tuesday 7/29
+4. Research for grading feature
+      WebAudio library/api (see readme for links)
+      how to record audio from computer audio input
+      how to record audio from computer form browser audio output
+      how to create waveform from recorded audio
+      how to compare two waveforms
 
+*/
 
 /*
 NavBar will be a Route thing that is on every page
