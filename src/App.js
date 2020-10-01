@@ -10,14 +10,15 @@ import SignUp from './components/SignUp'
 import Login from './components/Login'
 
 const API_URL = 'http://localhost:3000'
-const K = {
-  name: 'Kanye%20West',
-  song: 'Jesus%20Walks'
-}
-const C = {
-  name: 'Coldplay',
-  song: 'Yellow'
-}
+
+// const K = {
+//   name: 'Kanye%20West',
+//   song: 'Jesus%20Walks'
+// }
+// const C = {
+//   name: 'Coldplay',
+//   song: 'Yellow'
+// }
 
 
 class App extends React.Component {
@@ -56,14 +57,6 @@ class App extends React.Component {
     }
   }
 
-  // appSearchHandler = (event) => {
-  //   //setState here to change searchQuery to value received from Search
-  //   event.persist()
-  //   this.setState(()=>({
-  //     searchQuery: event.target.value
-  //   }))
-  //   console.log("This is our change handler. Here's the query:", event.target.value)
-  // }
 
   appSubmitHandler = (event) => {
     event.persist()
@@ -94,10 +87,6 @@ class App extends React.Component {
       //   searchQuery: ''
       // }))
   }
-
-  // resultsGetter = () => {
-
-  // }
 
   next = ()=>{
     console.log("this is my next")
@@ -155,7 +144,10 @@ class App extends React.Component {
 
   appRoomMaker = (videoId) => {
     console.log('This is our room maker. RoomId is currently: ', this.state.roomId)
-    this.getLyrics()
+    //need to have room video persisted on backend to get all details from backend
+    //and parse the description for lyrics (change getLyrics() to perform the parse)
+    //post request
+    // this.getLyrics()
     this.setState(()=>({ roomId: videoId }), ()=>{
       this.props.history.push('/room')
     })
@@ -181,14 +173,6 @@ class App extends React.Component {
   */
 
 
-  //This is functions for the add favs piece
-//   addChanger=(event)=>{
-//     console.log("this is my add changer",event.target.value)
-//     event.persist()
-//     this.setState(()=>({
-//       addFav: event.target.value
-//   }))
-// }
 
   addhandler=(event)=>{
     event.persist()
@@ -256,16 +240,38 @@ class App extends React.Component {
       }
     }
 
-    getLyrics = () => {
-      fetch(`https://api.lyrics.ovh/v1/${C.name}/${C.song}`)
-      .then(response => response.json())
-      .then(response => {
-        console.log(response)
-        this.setState(()=>({
-          lyrics: response.lyrics
-        }))
-      })
-    }   
+    // getVideoDetails = (videoId) => {
+    //   fetch('http://localhost:3000/videos', {
+    //     method: 'POST',
+    //     headers: {
+    //       "content-type": "application/json",
+    //       accept: "application/json"
+    //     },
+    //     body: JSON.stringify({
+    //       youTubeId: videoId
+    //     })
+    //   })
+    //     .then(r => r.json())
+    //     .then(console.log)
+    // }
+
+    // getArtistSongTitle = (details) => {
+    //   // const details = this.state.searchQuery
+    //   fetch(`https://api.canarado.xyz/lyrics/${details}`)
+    //   .then(response => response.json())
+    //   .then(console.log)
+    // }
+
+    // getLyrics = () => {
+    //   fetch(`https://api.lyrics.ovh/v1/${C.name}/${C.song}`)
+    //   .then(response => response.json())
+    //   .then(response => {
+    //     console.log(response)
+    //     this.setState(()=>({
+    //       lyrics: response.lyrics
+    //     }))
+    //   })
+    // }   
 
   changeHandler = (event) => {
     // console.log(`${event.target.name}: ${event.target.value}`)
@@ -327,7 +333,10 @@ class App extends React.Component {
   logout =()=>{
     console.log("this is my logout")
     localStorage.clear("token")
-    this.setState(()=>({user:false}))
+    this.setState(()=>({
+      user:false,
+      favorites: []
+    }))
   }
   
   render(){
@@ -379,7 +388,7 @@ class App extends React.Component {
           <Route path="/room" render={()=> {
             return(
               <>
-                { this.state.roomId && this.state.user ? <Room roomId={this.state.roomId} addToFavs={this.addToFavs} lyrics={this.state.lyrics} /> : null}
+                { this.state.roomId && this.state.user ? <Room roomId={this.state.roomId} addToFavs={this.addToFavs} lyrics={this.state.lyrics} searchQuery={this.state.searchQuery} /> : null}
                 <ResultsContainer 
                   searchResults={this.state.searchResults} 
                   next={this.next} 
@@ -418,6 +427,27 @@ class App extends React.Component {
 }
 
 export default withRouter(App);
+
+/* 10/1 Todo:
+11:59am: see appRoomMaker for comments for next steps
+
+1. make search and "favorites" hideable
+      have them show up in the same spot
+          change route landing after login:
+              currently goes to search
+              change to generic room with no iframe
+              add "Search" and "Favorites or Queue" button
+              Add toggle of display: 'hidden' / display: 'bloc' 
+2. CSS
+      change to flex?
+      background pattern change?
+      change 'go sing!' text on 'home' page
+
+*/
+
+
+
+
 
 /* TODO 9/28
 1. for lyrics:
