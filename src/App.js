@@ -20,8 +20,8 @@ class App extends React.Component {
     nextToken: false,
     prevToken: false,
     currentVideo: false,
+    vidObj: false,
     addFav: "",
-    lyrics: "",
     name: "",
     email: "",
     password: "",
@@ -70,10 +70,6 @@ class App extends React.Component {
           searchResults: res.search.results, 
           nextToken: res.next_token}))
       })
-
-      // this.setState(()=>({
-      //   searchQuery: ''
-      // }))
   }
 
   next = ()=>{
@@ -130,11 +126,22 @@ class App extends React.Component {
       })
   }
 
-  appRoomMaker = (videoId) => {
-    console.log('This is our room maker. RoomId is currently: ', this.state.roomId)
+  appVideoPlayer = (videoId) => {
+    console.log('This is our video player. currentVideo is currently: ', this.state.currentVideo)
     
     this.setState(()=>({ currentVideo: videoId }))
     console.log('Current Video is now: ', this.state.currentVideo)
+
+    fetch(`${API_URL}/videos`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        accept: 'application/json'
+      },
+      body: JSON.stringify({ youTubeId: videoId})
+    })
+      .then(r => r.json())
+      .then(console.log) //see if works -- then setState in vidObj
   }
 
   /* 
@@ -307,6 +314,21 @@ class App extends React.Component {
               </>
             )
           }} />
+          {this.state.user === false ? null :
+        
+              <Route path="/room" render={()=> {
+                return(
+                  <>
+                    <Room state={this.state}
+                      currentVideo={this.state.currentVideo} 
+                      addToFavs={this.addToFavs} 
+                      lyrics={this.state.lyrics} 
+                      searchQuery={this.state.searchQuery} />
+                  </>
+                )    
+              }} />
+      
+          }
             <Route path="/" render={()=> {
             return(
               <>
@@ -315,40 +337,7 @@ class App extends React.Component {
             )
           }} />
           </Switch>
-        {this.state.user === false ? null :
-        <Switch>
-          <Route path="/room" render={()=> {
-            return(
-              <>
-                { this.state.roomId && this.state.user ? <Room roomId={this.state.roomId} addToFavs={this.addToFavs} lyrics={this.state.lyrics} searchQuery={this.state.searchQuery} /> : null}
-                {this.state.user ? <ResultsContainer 
-                  searchResults={this.state.searchResults} 
-                  next={this.next} 
-                  prev={this.prev}
-                  prevToken={this.state.prevToken} 
-                  nextToken={this.state.nextToken} 
-                  appRoomMaker={this.appRoomMaker}
-                  searchHandler={this.changeHandler} 
-                  searchQuery={this.state.searchQuery} 
-                  appSubmitHandler={this.appSubmitHandler} 
-                /> : null}
-                {
-                this.state.favorites && this.state.user ? 
-                  <FavoritesContainer 
-                    favs={this.state.favorites} 
-                    appRoomMaker={this.appRoomMaker}
-                    addChanger={this.changeHandler}
-                    addhandler={this.addhandler}
-                    addFav={this.state.addFav}
-                  />
-                :
-                null
-                }
-              </>
-            )    
-          }} />
-        </Switch>
-    }
+        
         
 
         

@@ -5,9 +5,9 @@ import Add from '../components/Add'
 
 const FavoritesContainer = (props) => {
 
-    let videos = props.favs.map((el,index)=><Result key={index} el={el} appRoomMaker={props.appRoomMaker}/>)
+    let videos = props.favs?.map((el,index)=><Result key={index} el={el} appRoomMaker={props.appRoomMaker}/>)
     return(
-        <div className='box favorites'>
+        <div className='favoritesTile'>
             <Add
                 addChanger={props.addChanger}
                 addhandler={props.addhandler}

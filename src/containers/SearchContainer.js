@@ -5,7 +5,7 @@ import ResultsContainer from './ResultsContainer'
 
 const SearchContainer = (props) => {
     return(
-        <div>
+        <div className='searchTile'>
             <Search />
             <ResultsContainer />
         </div>
@@ -13,3 +13,19 @@ const SearchContainer = (props) => {
 }
 
 export default SearchContainer
+
+
+/* 
+<ResultsContainer 
+                  searchResults={this.state.searchResults} 
+                  next={this.next} 
+                  prev={this.prev}
+                  prevToken={this.state.prevToken} 
+                  nextToken={this.state.nextToken} 
+                  appVideoPlayer={this.appVideoPlayer}
+                  searchHandler={this.changeHandler} 
+                  searchQuery={this.state.searchQuery} 
+                  appSubmitHandler={this.appSubmitHandler} 
+                />
+
+*/

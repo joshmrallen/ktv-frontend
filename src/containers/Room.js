@@ -1,20 +1,101 @@
 import React from 'react'
 import Video from '../components/Video'
-import LyricBox from '../components/LyricBox'
-// import SearchContainer from './SearchContainer'
-// import FavoritesContainer from './FavoritesContainer'
+import FavoritesContainer from './FavoritesContainer'
+import ResultsContainer from './ResultsContainer'
 
 class Room extends React.Component {
 
-    state = {
-        //use this to find artist or song name inside the video's description property
-        //the artist and song name must both be obtained in order to make a call to the api
-        artist: "",
-        title: "",
-        lyrics: ""
-    }
+    
 
-    getArtistSongTitle = (details) => {
+
+    render(){
+        return(
+            <>
+                <div className='room'>
+                    <ResultsContainer 
+                        searchResults={this.props.searchResults} 
+                        next={this.props.next} 
+                        prev={this.prev}
+                        prevToken={this.state.prevToken} 
+                        nextToken={this.state.nextToken} 
+                        appVideoPlayer={this.appVideoPlayer}
+                        searchHandler={this.changeHandler} 
+                        searchQuery={this.state.searchQuery} 
+                        appSubmitHandler={this.appSubmitHandler} 
+                    />
+                    <Video videoId={this.props.roomId} addToFavs={this.props.addToFavs} />
+                    <FavoritesContainer />
+                </div>
+            </>
+        )
+
+    }
+}
+
+export default Room
+
+/* 
+<FavoritesContainer 
+                    favs={this.state.favorites} 
+                    appVideoPlayer={this.appVideoPlayer}
+                    addChanger={this.changeHandler}
+                    addhandler={this.addhandler}
+                    addFav={this.state.addFav}
+                  />
+
+<ResultsContainer 
+                  searchResults={this.state.searchResults} 
+                  next={this.next} 
+                  prev={this.prev}
+                  prevToken={this.state.prevToken} 
+                  nextToken={this.state.nextToken} 
+                  appVideoPlayer={this.appVideoPlayer}
+                  searchHandler={this.changeHandler} 
+                  searchQuery={this.state.searchQuery} 
+                  appSubmitHandler={this.appSubmitHandler} 
+                />
+*/
+
+/* 
+1. Add search and favorite components to Room render so they appear when the room is rendered
+2. Video component is rendered when a user clicks on a thumbnail from either search or favorites
+        When a thumbnail is clicked, a request is sent to backend for details
+            Backend finds the video record if it already exists or creates a new one
+                response back is the video's details
+                    video details get saved into App state
+                        video details get passed back down through Room props
+                            Room passes Video detail props to Lyric box, etc
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sample response from camarodo:
+
+artist: "Ludacris"
+lyrics: ""
+title: "Money Maker by..."
+
+
+
+
+
+
+
+
+
+
+
+
+getArtistSongTitle = (details) => {
         // const details = this.state.searchQuery
         fetch(`https://api.canarado.xyz/lyrics/${details}`)
         .then(response => response.json())
@@ -29,8 +110,10 @@ class Room extends React.Component {
         })
         return { artist: this.state.artist, title: this.state.title } 
       }
-  
-      getLyrics = () => {
+
+
+
+getLyrics = () => {
         const { artist, title } = this.getArtistSongTitle(this.props.searchQuery)
 
         fetch(`https://api.lyrics.ovh/v1/${artist}/${title}`)
@@ -52,41 +135,10 @@ class Room extends React.Component {
         return this.state.lyrics
     }
 
-    // findAPIParams = (parseTerm) => {
-    //     const artistKey = "artist"
-    //     const songKey = "song"
-    //     //need to have room video persisted on backend to get all details from backend
-        
-    // }
-
-    render(){
-        return(
-            <>
-            <div className='box room'>
-                <Video videoId={this.props.roomId} />
-                <button className= 'pause'>Pause</button>
-                <button className= 'addVideo' onClick={this.props.addToFavs}>Add to Favs</button>
-            </div>
-            <div className='box lyrics'>
-                <LyricBox lyrics={this.getLyrics()} />
-                {/* 
-                <SearchContainer />
-                <FavoritesContainer /> */}
-            </div>
-            </>
-        )
-
-    }
-}
-
-export default Room
 
 
-
-/* Sample response from camarodo:
-
-artist: "Ludacris"
-lyrics: ""
-title: "Money Maker by..."
 
 */
+
+
+

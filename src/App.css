@@ -115,6 +115,11 @@ body {
         top:55%;
         width: 200px
       }
+
+      .room {
+        display: 'flex';
+        flex-direction: row;
+      }
   
       /* .box {
           background-color: #E1B382;

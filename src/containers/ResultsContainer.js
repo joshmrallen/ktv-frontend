@@ -6,7 +6,7 @@ const ResultsContainer = (props) => {
 
     // console.log(props.searchResults)
     // console.log(props)
-    let videos = props.searchResults.map((el,index)=><Result key={index} el={el} next={props.next} appRoomMaker={props.appRoomMaker}/>)
+    let videos = props.searchResults?.map((el,index)=><Result key={index} el={el} next={props.next} appRoomMaker={props.appVideoPlayer}/>)
     return(
         <div className='box results'>
             <Search 

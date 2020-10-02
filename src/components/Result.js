@@ -4,7 +4,7 @@ const Result=(props)=>{
     // console.log(props)
 
     const createRoom = () => {
-        props.appRoomMaker(props.el)
+        props.appVideoPlayer(props.el)
     }
 
     return(
