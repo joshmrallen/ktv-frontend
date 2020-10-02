@@ -11,16 +11,6 @@ import Login from './components/Login'
 
 const API_URL = 'http://localhost:3000'
 
-// const K = {
-//   name: 'Kanye%20West',
-//   song: 'Jesus%20Walks'
-// }
-// const C = {
-//   name: 'Coldplay',
-//   song: 'Yellow'
-// }
-
-
 class App extends React.Component {
   
   state = {
@@ -32,12 +22,10 @@ class App extends React.Component {
     currentVideo: false,
     addFav: "",
     lyrics: "",
-    signup_name: "",
-    signup_email: "",
-    signup_password: "",
+    name: "",
+    email: "",
+    password: "",
     user: false,
-    login_email: "",
-    login_password: ""
   }
 
   componentDidMount=()=>{
@@ -50,7 +38,7 @@ class App extends React.Component {
       }).then(r=>r.json())
       .then(data=>{
         console.log(data)
-        this.setState({ user: data.user, favorites: data.user.videos.map(el=>el.youTubeId)}, this.props.history.push("/room"))
+        this.setState({ user: data.user, favorites: data.user?.videos.map(el=>el.youTubeId)}, this.props.history.push("/room"))
       })
     }else {
       this.props.history.push("/")
@@ -233,39 +221,6 @@ class App extends React.Component {
       }
     }
 
-    // getVideoDetails = (videoId) => {
-    //   fetch('http://localhost:3000/videos', {
-    //     method: 'POST',
-    //     headers: {
-    //       "content-type": "application/json",
-    //       accept: "application/json"
-    //     },
-    //     body: JSON.stringify({
-    //       youTubeId: videoId
-    //     })
-    //   })
-    //     .then(r => r.json())
-    //     .then(console.log)
-    // }
-
-    // getArtistSongTitle = (details) => {
-    //   // const details = this.state.searchQuery
-    //   fetch(`https://api.canarado.xyz/lyrics/${details}`)
-    //   .then(response => response.json())
-    //   .then(console.log)
-    // }
-
-    // getLyrics = () => {
-    //   fetch(`https://api.lyrics.ovh/v1/${C.name}/${C.song}`)
-    //   .then(response => response.json())
-    //   .then(response => {
-    //     console.log(response)
-    //     this.setState(()=>({
-    //       lyrics: response.lyrics
-    //     }))
-    //   })
-    // }   
-
   changeHandler = (event) => {
     // console.log(`${event.target.name}: ${event.target.value}`)
     this.setState({
@@ -317,7 +272,6 @@ class App extends React.Component {
       .then(r => r.json())
       .then(data => {
         console.log(data)
-        //Building Local Storage here, Joshie, boi
         localStorage.setItem("token",data.jwt)
         this.setState({ user: data.user}, this.props.history.push("/room"))
       })
@@ -338,17 +292,18 @@ class App extends React.Component {
 
       <div className='wrapper'>
         <NavBar roomId={this.state.roomId} user={this.state.user} logout={this.logout}/>
+        <Switch>
         <Route path="/signup" render={()=> {
             return(
-              <>
-                <SignUp changeHandler={this.changeHandler} submitHandler={this.signupSubmitHandler} name={this.state.signup_name} email={this.state.signup_email} password={this.state.signup_password} />
-              </>
+              <Switch>
+                <SignUp changeHandler={this.changeHandler} submitHandler={this.signupSubmitHandler} name={this.state.name} email={this.state.email} password={this.state.password} />
+              </Switch>
             )
           }} />
           <Route path="/login" render={()=> {
             return(
               <>
-                <Login changeHandler={this.changeHandler} submitHandler={this.loginSubmitHandler} email={this.state.login_email} password={this.state.login_password} />
+                <Login changeHandler={this.changeHandler} submitHandler={this.loginSubmitHandler} email={this.state.email} password={this.state.password} />
               </>
             )
           }} />
@@ -359,13 +314,14 @@ class App extends React.Component {
               </>
             )
           }} />
+          </Switch>
         {this.state.user === false ? null :
         <Switch>
           <Route path="/room" render={()=> {
             return(
               <>
                 { this.state.roomId && this.state.user ? <Room roomId={this.state.roomId} addToFavs={this.addToFavs} lyrics={this.state.lyrics} searchQuery={this.state.searchQuery} /> : null}
-                <ResultsContainer 
+                {this.state.user ? <ResultsContainer 
                   searchResults={this.state.searchResults} 
                   next={this.next} 
                   prev={this.prev}
@@ -375,7 +331,7 @@ class App extends React.Component {
                   searchHandler={this.changeHandler} 
                   searchQuery={this.state.searchQuery} 
                   appSubmitHandler={this.appSubmitHandler} 
-                />
+                /> : null}
                 {
                 this.state.favorites && this.state.user ? 
                   <FavoritesContainer 
