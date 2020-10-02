@@ -1,38 +1,141 @@
-.App {
-  text-align: center;
-}
+/*
+color theme:
+Sand Tan: #E1B382
+Sand Tan Shadow: #C89666
+Night Blue: #2D545E
+Night Blue Shadow: #12343B
+*/
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+body {
+    margin: 40px;
+    background-color: #E1B382;
+    background-image: url('./images/mics-pattern.jpg');
   }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+  
+  .wrapper {
+      display: grid;
+      grid-gap: 10px;
+      grid-template-columns: [col]200px [col]auto [col]200px;
+      background-color: #2D545E;
+      justify-items: space-between;
+      color: #E1B382;
+      border-radius: 5px;
+      grid-template-rows: 30px;
+      grid-auto-rows: 20px;
+      grid-gap: 2rem;
+      }
 
-.App-link {
-  color: #61dafb;
-}
+      .nav {
+        display: flex;
+        justify-content: space-evenly;
+        grid-column: 1 / span 3 ;
+        grid-template-rows: repeat(3, minmax(15px, auto));
+        grid-row: 1;
+        font-size: 15px;
+        padding: 5px;
+    }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+      .home {
+        grid-column: 1 / span 3;
+        grid-row: 2;
+        /* text-align: left; */
+        background-image: url('./images/lone_mic_large.jpg');
+        background-size: cover;
+        grid-row-end:span 9;
+
+      }
+
+      .home > span {
+        left: 30%;
+      }
+
+    
+
+      .bottom-image {
+        background-image: url('./images/lone_mic_large.jpg');
+        background-size: contain;
+        height: 80vh;
+      }
+  
+      .box {
+          background-color: #E1B382;
+          color: #fff;
+          border-radius: 5px;
+          padding: 5px;
+          font-size: 100%;
+          border: thick;
+          
+      }
+
+      .link {
+        color: white;
+        padding: 5px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        text-decoration: none;
+      }
+
+      .activeLink {
+        color: rgb(150, 250, 208);
+        font-weight: bold;
+      }
+
+      .links:hover {
+        background-color: #fff;
+      }
+
+      .results {
+          grid-column: 1 ;
+          grid-row: 2 ;
+          grid-row-end:span 13;
+          overflow-y: auto;
+      }
+
+      .submit{
+        width: 100%;
+      }
+
+      .text {
+        width: 96%;
+      }
+
+      .display{
+        width: 100%;
+      }
+
+      .room {
+          grid-column: 2 ;
+          grid-row: 2 ;
+          grid-row-end:span 11;
+          background-color: white;
+          position: relative;
+          width: 100%;
+          height: 0;
+          padding-bottom: 56.25%;
+      }
+
+      .room .main-video{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 98%;
+      }
+
+      .favorites {
+          grid-column: 3;
+          grid-row: 2;
+          grid-row-end:span 13;
+          overflow-y: auto;
+      }
+
+      .lyrics {
+        grid-column: 2;
+        grid-row: 12;
+        grid-row-end:span 3;
+        overflow-y: auto;
+        text-align: center;
+        font-weight: bold;
+        font-size: 2rem;
+    }
