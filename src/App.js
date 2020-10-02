@@ -239,9 +239,9 @@ class App extends React.Component {
       },
       body: JSON.stringify({
         user: {
-          name: this.state.signup_name,
-          email: this.state.signup_email,
-          password: this.state.signup_password
+          name: this.state.name,
+          email: this.state.email,
+          password: this.state.password
         }
       })
     })
@@ -249,7 +249,7 @@ class App extends React.Component {
       .then(data => {
         console.log(data)
         localStorage.setItem("token",data.jwt)
-        this.setState({ user: data.user}, this.props.history.push("/search"))
+        this.setState({ user: data.user}, this.props.history.push("/room"))
       })
   }
 
@@ -264,8 +264,8 @@ class App extends React.Component {
       },
       body: JSON.stringify({
         user: {
-          email: this.state.login_email,
-          password: this.state.login_password
+          email: this.state.email,
+          password: this.state.password
         }
       })
     })
