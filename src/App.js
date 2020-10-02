@@ -344,8 +344,29 @@ class App extends React.Component {
     }))
   }
 
-  delete=(obj)=>{
-    console.log("This is delete, buddy!",obj)
+  delete=(videoId)=>{
+    console.log("This is delete, buddy!", videoId)
+
+    // optimistic delete from favorites container
+    let newArray = this.state.favorites.filter(el=> el !== videoId)
+    this.setState(()=>({
+      favorites: newArray
+    }))
+
+    // api post to /favorites/delete with obj containing user_id and video_id
+    fetch(`${API_URL}/favorites/delete`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        accept: 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: this.state.user.id,
+        video_id: videoId
+      })
+    })
+      .then(r=> r.json())
+      .then(console.log)
   }
   
   render(){
