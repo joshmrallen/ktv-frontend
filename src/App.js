@@ -16,7 +16,7 @@ class App extends React.Component {
   state = {
     searchQuery: '',
     searchResults: ["jo505ZyaCbA","JDb3ZZD4bA0"],
-    favorites:["x3bDhtuC5yk","caITRQWpBHs"],
+    favorites: ["x3bDhtuC5yk","caITRQWpBHs"],
     nextToken: false,
     prevToken: false,
     currentVideo: false,
@@ -39,7 +39,10 @@ class App extends React.Component {
       }).then(r=>r.json())
       .then(data=>{
         console.log(data)
-        this.setState({ user: data.user, favorites: data.user?.videos.map(el=>el.youTubeId)}, this.props.history.push("/room"))
+        this.setState({ user: data.user, favorites: data.user.videos ? data.user.videos.map(el=>el.youTubeId) : null}, ()=> {
+          console.log(data)
+          this.props.history.push("/room")
+        })
       })
     }else {
       this.props.history.push("/")
@@ -173,13 +176,25 @@ class App extends React.Component {
     event.persist()
     event.preventDefault()
     console.log("this is my add", this.state.addFav)
-    let videoID=this.youtube_parser(this.state.addFav)
+    // debugger
+    let videoID = this.youtube_parser(this.state.addFav)
     this.setState(()=>({ currentVideo: videoID }))
+
+    console.log(!this.state.favorites.includes(videoID))
+
     if (!this.state.favorites.includes(videoID)){
+
       const favObj = {
         user_id: this.state.user, //We are sending the entire user to our back end. Our backend is going to take the email information for this object.
         video_id: videoID         // We are then going to use the email to find the user in the back end. We are also creating a Video record with this video ID(string)
       }                           // With our user ID and video ID finally created, we will create the favorite user instance. 
+      
+      //Rendering optimistically and posting the new video's id to the backend
+      let newArray = [videoID, ...this.state.favorites]
+      this.setState(()=>({
+        favorites: newArray
+      }))
+
       fetch(`${API_URL}/favorites`, {
         method: 'POST',
         headers: {
@@ -192,12 +207,13 @@ class App extends React.Component {
       })
       .then(r=>r.json())
       .then(data=>{
-        console.log(data.videos[data.videos.length-1])
-        let newObj = data.videos[data.videos.length-1].youTubeId
-        let newArray= [newObj, ...this.state.favorites]
-        this.setState(()=>({
-          favorites: newArray
-        }))
+        console.log(data)
+        // let newObj = data.videos[data.videos.length-1].youTubeId
+        // // let newArray = data.videos.map(vid => vid.youTubeId)
+        // let newArray= [newObj, ...this.state.favorites]
+        // this.setState(()=>({
+        //   favorites: newArray
+        // }))
       })
     }
     console.log("this is my add handler",videoID)
@@ -211,7 +227,7 @@ class App extends React.Component {
 
     addToFavs=()=>{ //should we change favs into a quene in the front end
       let videoID= this.state.currentVideo
-      let filtered = this.state.favorites.filter(el=>el==videoID)
+      let filtered = this.state.favorites.filter(el=>el === videoID)
       console.log("this is my add to favs",this.state.currentVideo,this.state.favorites,!this.state.favorites.includes(videoID))
       console.log("this is my filter",filtered.length===0)
       if (filtered.length===0){
@@ -233,7 +249,7 @@ class App extends React.Component {
         })
         .then(r => r.json())
         .then(data=>{
-          console.log(data.videos[data.videos.length-1])
+          console.log(data)
           let newObj = data.videos[data.videos.length-1].youTubeId
           let newArray= [newObj, ...this.state.favorites]
           this.setState(()=>({
@@ -252,6 +268,7 @@ class App extends React.Component {
 
   signupSubmitHandler = (event) => {
     event.preventDefault()
+    event.persist()
     console.log("Signup happening!")
     fetch(`${API_URL}/users`, {
       method: 'POST',
@@ -271,8 +288,14 @@ class App extends React.Component {
       .then(data => {
         console.log(data)
         localStorage.setItem("token",data.jwt)
-        this.setState({ user: data.user}, this.props.history.push("/room"))
+        this.setState({ 
+          user: data.user,
+          name: "",
+          email: "",
+          password: ""
+        }, this.props.history.push("/room"))
       })
+    
   }
 
   loginSubmitHandler = (event) => {
@@ -295,7 +318,12 @@ class App extends React.Component {
       .then(data => {
         console.log(data)
         localStorage.setItem("token",data.jwt)
-        this.setState({ user: data.user}, this.props.history.push("/room"))
+        this.setState({ 
+          user: data.user,
+          favorites: data.user.videos ? data.user.videos.map(el=>el.youTubeId) : null,
+          email: "",
+          password: ""
+        }, this.props.history.push("/room"))
       })
   }
 
@@ -303,8 +331,9 @@ class App extends React.Component {
     console.log("this is my logout")
     localStorage.clear("token")
     this.setState(()=>({
-      user:false,
-      favorites: []
+      searchQuery: '',
+      user: false,
+      favorites: ["x3bDhtuC5yk","caITRQWpBHs"]
     }))
   }
   

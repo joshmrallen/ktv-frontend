@@ -8,7 +8,8 @@ class Room extends React.Component {
     render(){
         // console.log(this.props)
         const {prevToken, nextToken,searchQuery,addFav,favorites,searchResults, currentVideo,lyrics} = this.props.state
-        //console.log(prevToken, nextToken,searchQuery,addFav,favorites,searchResults)
+        // console.log(prevToken, nextToken,searchQuery,addFav,favorites,searchResults, currentVideo,lyrics)
+        // console.log(favorites)
         
         return(
             <>
