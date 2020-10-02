@@ -15,11 +15,12 @@ class App extends React.Component {
   
   state = {
     searchQuery: '',
-    searchResults: ["x3bDhtuC5yk","caITRQWpBHs"],
+    searchResults: ["jo505ZyaCbA","Wc5IbN4xw70","JDb3ZZD4bA0"],
     favorites:["x3bDhtuC5yk","caITRQWpBHs"],
     nextToken: false,
     prevToken: false,
     currentVideo: false,
+    lyrics:"",
     vidObj: false,
     addFav: "",
     name: "",
@@ -141,7 +142,13 @@ class App extends React.Component {
       body: JSON.stringify({ youTubeId: videoId})
     })
       .then(r => r.json())
-      .then(console.log) //see if works -- then setState in vidObj
+      .then(data=>{
+        console.log(data)
+        this.setState(()=>({
+          lyrics: data.lyrics
+        }))
+        
+      }) //see if works -- then setState in vidObj
   }
 
   /* 
@@ -165,6 +172,7 @@ class App extends React.Component {
   addhandler=(event)=>{
     event.persist()
     event.preventDefault()
+    console.log("this is my add", this.state.addFav)
     let videoID=this.youtube_parser(this.state.addFav)
     if (!this.state.favorites.includes(videoID)){
       const favObj = {
@@ -199,8 +207,8 @@ class App extends React.Component {
     }
 
     addToFavs=()=>{ //should we change favs into a quene in the front end
-      console.log("this is my add to favs")
-      let videoID= this.state.roomId
+      console.log("this is my add to favs",this.state.currentVideo,this.state.user)
+      let videoID= this.state.currentVideo
       if (!this.state.favorites.includes(videoID)){
         // let newArray= [videoID, ...this.state.favorites]
         const favorite = {
@@ -220,7 +228,7 @@ class App extends React.Component {
         .then(r => r.json())
         .then(data=>{
           console.log(data)
-          let newArray= [data.video.youTubeId, ...this.state.favorites]
+          let newArray= [data.videos]
           this.setState(()=>({
             favorites: newArray
           }))
@@ -298,7 +306,7 @@ class App extends React.Component {
     return (
 
       <div className='wrapper'>
-        <NavBar roomId={this.state.roomId} user={this.state.user} logout={this.logout}/>
+        <NavBar user={this.state.user} logout={this.logout}/>
         <Switch>
         <Route path="/signup" render={()=> {
             return(
@@ -320,6 +328,15 @@ class App extends React.Component {
                 return(
                   <>
                     <Room state={this.state}
+                    //for results container and not in this.state
+                      next={this.next}
+                      prev={this.prev} 
+                      changeHandler={this.changeHandler}
+                      appSubmitHandler={this.appSubmitHandler}
+                      appVideoPlayer={this.appVideoPlayer}
+                    //for favorites container
+                      addhandler={this.addhandler}
+
                       currentVideo={this.state.currentVideo} 
                       addToFavs={this.addToFavs} 
                       lyrics={this.state.lyrics} 

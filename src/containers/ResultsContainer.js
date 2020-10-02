@@ -4,13 +4,12 @@ import Search from '../components/Search'
 
 const ResultsContainer = (props) => {
 
-    // console.log(props.searchResults)
+    let videos = props.searchResults?.map((el,index)=><Result key={index} el={el} next={props.next} appVideoPlayer={props.appVideoPlayer}/>)
     // console.log(props)
-    let videos = props.searchResults?.map((el,index)=><Result key={index} el={el} next={props.next} appRoomMaker={props.appVideoPlayer}/>)
     return(
-        <div className='box results'>
+        <div className='results'>
             <Search 
-                searchHandler={props.searchHandler} 
+                changeHandler={props.changeHandler} 
                 searchQuery={props.searchQuery} 
                 appSubmitHandler={props.appSubmitHandler} 
             />

@@ -1,11 +1,21 @@
 import React from 'react'
 
 const Favorite = (props) => {
-    return(
-        <div>
-            this is fav
-        </div>
-    )
+        console.log(props)
+
+        const createRoom = () => {
+            props.appVideoPlayer(props.el)
+        }
+    
+        return(
+            <div>
+                <img className='display'
+                    alt={props.el} 
+                    src={`https://img.youtube.com/vi/${props.el}/mqdefault.jpg`} 
+                    onClick={createRoom}
+                />
+            </div>
+        )
 }
 
 export default Favorite

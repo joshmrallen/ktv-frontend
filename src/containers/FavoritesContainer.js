@@ -1,11 +1,11 @@
 import React from 'react'
-//import Favorite from '../components/Favorite'
-import Result from '../components/Result'
+import Favorite from '../components/Favorite'
+// import Result from '../components/Result'
 import Add from '../components/Add'
 
 const FavoritesContainer = (props) => {
-
-    let videos = props.favs?.map((el,index)=><Result key={index} el={el} appRoomMaker={props.appRoomMaker}/>)
+    console.log(props)
+    let videos = props.favs?.map((el,index)=><Favorite key={index} el={el} appVideoPlayer={props.appVideoPlayer}/>)
     return(
         <div className='favoritesTile'>
             <Add
