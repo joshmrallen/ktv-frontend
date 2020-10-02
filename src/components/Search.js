@@ -11,7 +11,7 @@ const Search =(props)=>{
                             name="searchQuery" 
                             placeholder="Search for Song" 
                             value={props.searchQuery} 
-                            onChange={props.searchHandler} 
+                            onChange={props.changeHandler} 
                         />
                         <input 
                             className='submit'

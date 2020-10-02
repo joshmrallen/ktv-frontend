@@ -5,26 +5,36 @@ import ResultsContainer from './ResultsContainer'
 
 class Room extends React.Component {
 
-    
-
-
     render(){
+        // console.log(this.props)
+        const {prevToken, nextToken,searchQuery,addFav,favorites,searchResults, currentVideo,lyrics} = this.props.state
+        //console.log(prevToken, nextToken,searchQuery,addFav,favorites,searchResults)
+        
         return(
             <>
-                <div className='room'>
+                <p className='navfiller'></p>
+                <div className='mainroom'>
                     <ResultsContainer 
-                        searchResults={this.props.searchResults} 
+                        searchResults={searchResults} 
                         next={this.props.next} 
-                        prev={this.prev}
-                        prevToken={this.state.prevToken} 
-                        nextToken={this.state.nextToken} 
-                        appVideoPlayer={this.appVideoPlayer}
-                        searchHandler={this.changeHandler} 
-                        searchQuery={this.state.searchQuery} 
-                        appSubmitHandler={this.appSubmitHandler} 
+                        prev={this.props.prev}
+                        prevToken={prevToken} 
+                        nextToken={nextToken} 
+                        appVideoPlayer={this.props.appVideoPlayer}
+                        changeHandler={this.props.changeHandler} 
+                        searchQuery={searchQuery} 
+                        appSubmitHandler={this.props.appSubmitHandler} 
                     />
-                    <Video videoId={this.props.roomId} addToFavs={this.props.addToFavs} />
-                    <FavoritesContainer />
+                    <span className="filler"></span>
+                    <Video video={currentVideo} addToFavs={this.props.addToFavs} lyrics={lyrics}/>
+                    <span className="filler"></span>
+                    <FavoritesContainer 
+                        favs={favorites} 
+                        appVideoPlayer={this.props.appVideoPlayer}
+                        addChanger={this.props.changeHandler}
+                        addhandler={this.props.addhandler}
+                        addFav={addFav}
+                  />
                 </div>
             </>
         )
@@ -34,27 +44,6 @@ class Room extends React.Component {
 
 export default Room
 
-/* 
-<FavoritesContainer 
-                    favs={this.state.favorites} 
-                    appVideoPlayer={this.appVideoPlayer}
-                    addChanger={this.changeHandler}
-                    addhandler={this.addhandler}
-                    addFav={this.state.addFav}
-                  />
-
-<ResultsContainer 
-                  searchResults={this.state.searchResults} 
-                  next={this.next} 
-                  prev={this.prev}
-                  prevToken={this.state.prevToken} 
-                  nextToken={this.state.nextToken} 
-                  appVideoPlayer={this.appVideoPlayer}
-                  searchHandler={this.changeHandler} 
-                  searchQuery={this.state.searchQuery} 
-                  appSubmitHandler={this.appSubmitHandler} 
-                />
-*/
 
 /* 
 1. Add search and favorite components to Room render so they appear when the room is rendered
@@ -67,31 +56,11 @@ export default Room
                             Room passes Video detail props to Lyric box, etc
 
 
-
-
-
-
-
-
-
-
-
-
-
 Sample response from camarodo:
 
 artist: "Ludacris"
 lyrics: ""
 title: "Money Maker by..."
-
-
-
-
-
-
-
-
-
 
 
 

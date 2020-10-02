@@ -16,6 +16,7 @@ body {
   
   .wrapper {
       background-color: #2D545E;
+      border-radius: 10px;
       color: #E1B382;
       width: 90;
       height: 90vh;
@@ -28,11 +29,31 @@ body {
         font-size: 15px;
         padding: 5px;
         height:20px;
+        border-radius: 10px;
       }
 
       .wrapper .nav .link{
         flex-basis: auto;
         align-self: center;
+        padding: 5px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: bold;
+      }
+
+      .activeLink {
+        color: rgb(150, 250, 208);
+      }
+
+      .activeLink:hover {
+        color:#12343B;
+      }
+
+      .hellouser{
+        color:#12343B;
+      }
+
+      .wrapper .nav .link:hover{
+        color:#12343B;
       }
 
       .wrapper .home {
@@ -116,57 +137,46 @@ body {
         width: 200px
       }
 
-      .room {
-        display: 'flex';
+      .mainroom {
+        display: flex;
         flex-direction: row;
-      }
-  
-      /* .box {
-          background-color: #E1B382;
-          color: #fff;
-          font-size: 100%;
-          border: thick;
+        height: 83.6vh;
+        justify-content: space-between;
+        align-items: stretch;
       }
 
-      .link {
-        color: white;
-        padding: 5px;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        text-decoration: none;
+      .mainroom .results{
+        width: 150px;
+        background-color: #C89666;
+        border-radius: 10px;
+        overflow-y: auto;
       }
 
-      .activeLink {
-        color: rgb(150, 250, 208);
-        font-weight: bold;
+      .mainroom .filler{
+        width: 2%;
       }
 
-      .links:hover {
-        background-color: #fff;
-      }
-
-      .results {
-          grid-column: 1 ;
-          grid-row: 2 ;
-          grid-row-end:span 13;
-          overflow-y: auto;
+      .text {
+        width: 94.5%;
       }
 
       .submit{
         width: 100%;
       }
 
-      .text {
-        width: 96%;
-      }
-
       .display{
         width: 100%;
       }
 
-      .room {
-          grid-column: 2 ;
-          grid-row: 2 ;
-          grid-row-end:span 11;
+      .mainroom .mvp{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: #C89666;
+      }
+
+      .mainroom .mvp .player {
           background-color: white;
           position: relative;
           width: 100%;
@@ -174,27 +184,38 @@ body {
           padding-bottom: 56.25%;
       }
 
-      .room .main-video{
+      .mainroom .mvp .player .main-video{
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
+        width: 99.5%;
         height: 98%;
       }
 
-      .favorites {
-          grid-column: 3;
-          grid-row: 2;
-          grid-row-end:span 13;
-          overflow-y: auto;
+      .mainroom .mvp .utility .addVideo{
+        width: 100%;
+        background-color: #C89666;
       }
 
-      .lyrics {
-        grid-column: 2;
-        grid-row: 12;
-        grid-row-end:span 3;
+      .mainroom .mvp .utility .addVideo:hover{
+        color: rgb(150, 250, 208);
+      }
+
+      .mainroom .mvp .lyrics{
+        width: 100%;
+        background-color: #C89666;
+        height: 49vh;
         overflow-y: auto;
-        text-align: center;
-        font-weight: bold;
-        font-size: 2rem;
-    } */
+        color:black;
+      }
+
+      .mainroom .mvp .lyrics p:hover{
+        color: rgb(150, 250, 208);
+      }
+
+      .mainroom .favoritesTile {
+        width: 150px;
+        background-color: #C89666;
+        border-radius: 10px;
+        overflow-y: auto;
+      }

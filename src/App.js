@@ -15,11 +15,12 @@ class App extends React.Component {
   
   state = {
     searchQuery: '',
-    searchResults: ["x3bDhtuC5yk","caITRQWpBHs"],
+    searchResults: ["jo505ZyaCbA","JDb3ZZD4bA0"],
     favorites:["x3bDhtuC5yk","caITRQWpBHs"],
     nextToken: false,
     prevToken: false,
     currentVideo: false,
+    lyrics:"",
     vidObj: false,
     addFav: "",
     name: "",
@@ -141,7 +142,13 @@ class App extends React.Component {
       body: JSON.stringify({ youTubeId: videoId})
     })
       .then(r => r.json())
-      .then(console.log) //see if works -- then setState in vidObj
+      .then(data=>{
+        console.log(data)
+        this.setState(()=>({
+          lyrics: data.lyrics
+        }))
+        
+      }) //see if works -- then setState in vidObj
   }
 
   /* 
@@ -165,7 +172,9 @@ class App extends React.Component {
   addhandler=(event)=>{
     event.persist()
     event.preventDefault()
+    console.log("this is my add", this.state.addFav)
     let videoID=this.youtube_parser(this.state.addFav)
+    this.setState(()=>({ currentVideo: videoID }))
     if (!this.state.favorites.includes(videoID)){
       const favObj = {
         user_id: this.state.user, //We are sending the entire user to our back end. Our backend is going to take the email information for this object.
@@ -183,9 +192,11 @@ class App extends React.Component {
       })
       .then(r=>r.json())
       .then(data=>{
-          let newArray= [data.youTubeId, ...this.state.favorites]
-          this.setState(()=>({
-            favorites: newArray
+        console.log(data.videos[data.videos.length-1])
+        let newObj = data.videos[data.videos.length-1].youTubeId
+        let newArray= [newObj, ...this.state.favorites]
+        this.setState(()=>({
+          favorites: newArray
         }))
       })
     }
@@ -199,10 +210,13 @@ class App extends React.Component {
     }
 
     addToFavs=()=>{ //should we change favs into a quene in the front end
-      console.log("this is my add to favs")
-      let videoID= this.state.roomId
-      if (!this.state.favorites.includes(videoID)){
-        // let newArray= [videoID, ...this.state.favorites]
+      let videoID= this.state.currentVideo
+      let filtered = this.state.favorites.filter(el=>el==videoID)
+      console.log("this is my add to favs",this.state.currentVideo,this.state.favorites,!this.state.favorites.includes(videoID))
+      console.log("this is my filter",filtered.length===0)
+      if (filtered.length===0){
+        console.log("this song will be sent to the back")
+        
         const favorite = {
           user_id: this.state.user,
           video_id: videoID,
@@ -219,11 +233,12 @@ class App extends React.Component {
         })
         .then(r => r.json())
         .then(data=>{
-          console.log(data)
-          let newArray= [data.video.youTubeId, ...this.state.favorites]
+          console.log(data.videos[data.videos.length-1])
+          let newObj = data.videos[data.videos.length-1].youTubeId
+          let newArray= [newObj, ...this.state.favorites]
           this.setState(()=>({
             favorites: newArray
-          }))
+        }))
         })
       }
     }
@@ -298,7 +313,7 @@ class App extends React.Component {
     return (
 
       <div className='wrapper'>
-        <NavBar roomId={this.state.roomId} user={this.state.user} logout={this.logout}/>
+        <NavBar user={this.state.user} logout={this.logout}/>
         <Switch>
         <Route path="/signup" render={()=> {
             return(
@@ -320,6 +335,15 @@ class App extends React.Component {
                 return(
                   <>
                     <Room state={this.state}
+                    //for results container and not in this.state
+                      next={this.next}
+                      prev={this.prev} 
+                      changeHandler={this.changeHandler}
+                      appSubmitHandler={this.appSubmitHandler}
+                      appVideoPlayer={this.appVideoPlayer}
+                    //for favorites container
+                      addhandler={this.addhandler}
+
                       currentVideo={this.state.currentVideo} 
                       addToFavs={this.addToFavs} 
                       lyrics={this.state.lyrics} 
