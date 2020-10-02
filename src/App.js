@@ -174,6 +174,7 @@ class App extends React.Component {
     event.preventDefault()
     console.log("this is my add", this.state.addFav)
     let videoID=this.youtube_parser(this.state.addFav)
+    this.setState(()=>({ currentVideo: videoID }))
     if (!this.state.favorites.includes(videoID)){
       const favObj = {
         user_id: this.state.user, //We are sending the entire user to our back end. Our backend is going to take the email information for this object.
@@ -191,9 +192,11 @@ class App extends React.Component {
       })
       .then(r=>r.json())
       .then(data=>{
-          let newArray= [data.youTubeId, ...this.state.favorites]
-          this.setState(()=>({
-            favorites: newArray
+        console.log(data.videos[data.videos.length-1])
+        let newObj = data.videos[data.videos.length-1].youTubeId
+        let newArray= [newObj, ...this.state.favorites]
+        this.setState(()=>({
+          favorites: newArray
         }))
       })
     }
@@ -207,10 +210,13 @@ class App extends React.Component {
     }
 
     addToFavs=()=>{ //should we change favs into a quene in the front end
-      console.log("this is my add to favs",this.state.currentVideo,this.state.user)
       let videoID= this.state.currentVideo
-      if (!this.state.favorites.includes(videoID)){
-        // let newArray= [videoID, ...this.state.favorites]
+      let filtered = this.state.favorites.filter(el=>el==videoID)
+      console.log("this is my add to favs",this.state.currentVideo,this.state.favorites,!this.state.favorites.includes(videoID))
+      console.log("this is my filter",filtered.length===0)
+      if (filtered.length===0){
+        console.log("this song will be sent to the back")
+        
         const favorite = {
           user_id: this.state.user,
           video_id: videoID,
@@ -227,11 +233,12 @@ class App extends React.Component {
         })
         .then(r => r.json())
         .then(data=>{
-          console.log(data)
-          let newArray= [data.videos]
+          console.log(data.videos[data.videos.length-1])
+          let newObj = data.videos[data.videos.length-1].youTubeId
+          let newArray= [newObj, ...this.state.favorites]
           this.setState(()=>({
             favorites: newArray
-          }))
+        }))
         })
       }
     }
