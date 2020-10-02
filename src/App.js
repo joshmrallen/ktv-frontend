@@ -206,8 +206,12 @@ class App extends React.Component {
         )
       })
       .then(r=>r.json())
-      .then(data=>{
-        console.log(data)
+      .then(video=>{
+        console.log(video)
+        this.setState(()=>({
+          lyrics: video.lyrics
+        }))
+        console.log("you reach the end", video.lyrics)
         // let newObj = data.videos[data.videos.length-1].youTubeId
         // // let newArray = data.videos.map(vid => vid.youTubeId)
         // let newArray= [newObj, ...this.state.favorites]
@@ -216,7 +220,7 @@ class App extends React.Component {
         // }))
       })
     }
-    console.log("this is my add handler",videoID)
+    // console.log("this is my add handler",videoID)
   }
 
     youtube_parser=(url)=>{
@@ -237,6 +241,9 @@ class App extends React.Component {
           user_id: this.state.user,
           video_id: videoID,
         }
+
+        let newArray = [videoID, ...this.state.favorites]
+        this.setState(()=>({favorites:newArray}))
         fetch(`${API_URL}/favorites`, {
           method: 'POST',
           headers: {
@@ -250,11 +257,11 @@ class App extends React.Component {
         .then(r => r.json())
         .then(data=>{
           console.log(data)
-          let newObj = data.videos[data.videos.length-1].youTubeId
-          let newArray= [newObj, ...this.state.favorites]
-          this.setState(()=>({
-            favorites: newArray
-        }))
+        //   let newObj = data.videos[data.videos.length-1].youTubeId
+        //   let newArray= [newObj, ...this.state.favorites]
+        //   this.setState(()=>({
+        //     favorites: newArray
+        // }))
         })
       }
     }
@@ -336,6 +343,10 @@ class App extends React.Component {
       favorites: ["x3bDhtuC5yk","caITRQWpBHs"]
     }))
   }
+
+  delete=(obj)=>{
+    console.log("This is delete, buddy!",obj)
+  }
   
   render(){
     // console.log(this.state.user)
@@ -372,6 +383,7 @@ class App extends React.Component {
                       appVideoPlayer={this.appVideoPlayer}
                     //for favorites container
                       addhandler={this.addhandler}
+                      delete={this.delete}
 
                       currentVideo={this.state.currentVideo} 
                       addToFavs={this.addToFavs} 

@@ -219,3 +219,20 @@ body {
         border-radius: 10px;
         overflow-y: auto;
       }
+
+      .favpic {
+        position: relative;
+        width: 150px;
+      }
+
+      .favpic .delete {
+        position: absolute;
+        z-index: 100;
+        top:2%;
+        right:8%;
+        color:white;
+        background-color: white;
+        border-radius: 100%;
+        line-height: 10px;
+        cursor: pointer;
+      }

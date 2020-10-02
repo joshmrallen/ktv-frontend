@@ -5,7 +5,7 @@ import Add from '../components/Add'
 
 const FavoritesContainer = (props) => {
     console.log(props)
-    let videos = props.favs?.map((el,index)=><Favorite key={index} el={el} appVideoPlayer={props.appVideoPlayer}/>)
+    let videos = props.favs?.map((el,index)=><Favorite key={index} el={el} appVideoPlayer={props.appVideoPlayer} delete={props.delete}/>)
     return(
         <div className='favoritesTile'>
             <Add

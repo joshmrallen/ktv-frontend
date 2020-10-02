@@ -35,6 +35,7 @@ class Room extends React.Component {
                         addChanger={this.props.changeHandler}
                         addhandler={this.props.addhandler}
                         addFav={addFav}
+                        delete={this.props.delete}
                   />
                 </div>
             </>
