@@ -15,7 +15,7 @@ class App extends React.Component {
   
   state = {
     searchQuery: '',
-    searchResults: ["jo505ZyaCbA","Wc5IbN4xw70","JDb3ZZD4bA0"],
+    searchResults: ["jo505ZyaCbA","JDb3ZZD4bA0"],
     favorites:["x3bDhtuC5yk","caITRQWpBHs"],
     nextToken: false,
     prevToken: false,
