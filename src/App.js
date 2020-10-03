@@ -9,7 +9,7 @@ import Home from './components/Home'
 import SignUp from './components/SignUp'
 import Login from './components/Login'
 
-const API_URL = 'http://localhost:3000'
+const API_URL = 'https://ktv-backend.herokuapp.com'
 
 class App extends React.Component {
   
