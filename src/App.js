@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
-import ResultsContainer from './containers/ResultsContainer'
+// import ResultsContainer from './containers/ResultsContainer'
 import NavBar from './components/NavBar';
-import {Route, Switch, withRouter, NavLink} from 'react-router-dom'
+import {Route, Switch, withRouter } from 'react-router-dom'
 import Room from './containers/Room'
-import FavoritesContainer from './containers/FavoritesContainer'
+// import FavoritesContainer from './containers/FavoritesContainer'
 import Home from './components/Home'
 import SignUp from './components/SignUp'
 import Login from './components/Login'
