@@ -39,7 +39,7 @@ class App extends React.Component {
       }).then(r=>r.json())
       .then(data=>{
         console.log(data)
-        this.setState({ user: data.user, favorites: data.user.videos ? data.user.videos.map(el=>el.youTubeId) : null}, ()=> {
+        this.setState({ user: data.user, favorites: data.user?.videos ? data.user?.videos?.map(el=>el.youTubeId) : null}, ()=> {
           console.log(data)
           this.props.history.push("/room")
         })
@@ -327,7 +327,7 @@ class App extends React.Component {
         localStorage.setItem("token",data.jwt)
         this.setState({ 
           user: data.user,
-          favorites: data.user.videos ? data.user.videos.map(el=>el.youTubeId) : null,
+          favorites: data.user.videos ? data.user?.videos?.map(el=>el.youTubeId) : null,
           email: "",
           password: ""
         }, this.props.history.push("/room"))
