@@ -374,7 +374,7 @@ class App extends React.Component {
     return (
 
       <div className='wrapper'>
-        <NavBar user={this.state.user} logout={this.logout}/>
+        <NavBar user={this.state.user} logout={this.logout}/> 
         <Switch>
         <Route path="/signup" render={()=> {
             return(
