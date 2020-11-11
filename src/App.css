@@ -63,28 +63,30 @@ body {
         background-image: url('./images/lone_mic_large.jpg');
         background-size: 100% 100%;
         height: calc(100vh);
-        position: relative;
+        display:flex;
+        flex-direction:column;
+        justify-content: space-around;
+        align-items: center;
       }
 
       .home span {
-        left: 10%;
-        top: 40%;
+        order:2;
         font-size: 2rem;
-        position: absolute;
+        color:white;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        text-shadow: 2px 2px 8px black;
+        background-color: #43b5cc18;
+        /* box-shadow: 0 0 5 10 #43b5cc3a; */
+        border-radius: 50px;
       }
 
       .home .login{
-        left:20%;
-        position: absolute;
-        top: 30%;
-      }
-
-      .home .login{
-        left:20%;
-        position: absolute;
-        top: 30%;
+        order:1;
         font-size: 2rem;
-        color:#12343B;
+        color:#43b5cc;
+        transition: all 0.25s;
+        transition-timing-function: ease-in;
+        text-shadow: 2px 2px 8px #E1B382;
       }
 
       .home .login:hover{
@@ -92,52 +94,16 @@ body {
       }
 
       .home .signup{
-        left:20%;
-        position: absolute;
-        top: 70%;
+        order:3;
         font-size: 2rem;
-        color:#12343B;
+        color:#43b5cc;
         transition: all 0.25s;
         transition-timing-function: ease-in;
+        text-shadow: 2px 2px 8px #E1B382;
       }
 
       .home .signup:hover{
         color:#C89666;
-      }
-
-      .wrapper .loadPage {
-        background-image: url('./images/lone_mic_large.jpg');
-        background-size: 100% 100%;
-        height: 86vh;
-        position: relative;
-      }
-
-      .wrapper .loadPage form .name{
-        position: absolute;
-        left:10%;
-        top:40%;
-        width: 200px
-      }
-
-      .wrapper .loadPage form .email{
-        position: absolute;
-        left:15%;
-        top:45%;
-        width: 200px
-      }
-
-      .wrapper .loadPage form .password{
-        position: absolute;
-        left:20%;
-        top:50%;
-        width: 200px
-      }
-
-      .wrapper .loadPage form .submit{
-        position: absolute;
-        left:25%;
-        top:55%;
-        width: 200px
       }
 
       .mainroom {
@@ -238,4 +204,16 @@ body {
         border-radius: 100%;
         line-height: 10px;
         cursor: pointer;
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        /* height:30vh; */
+        background-color: #43b5cc;
+        /* justify-content:space-around; */
+      }
+
+      .form input{
+        margin-bottom: 1rem;
       }
